@@ -3,5 +3,8 @@ pyspectator
 
 Cross-platform tool for monitoring resources of OS with web-interface.
 
-Required python version: 3.x
-Required packages: psutil
+Requirements
+===========
+
+- Python version: 3.X
+- Packages: psutil
