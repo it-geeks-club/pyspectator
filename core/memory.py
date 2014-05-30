@@ -1,36 +1,22 @@
 __author__ = 'uzumaxy'
 
 import psutil
-from threading import Timer
+from .monitoring import AbcMonitor
 from abc import ABCMeta, abstractmethod
 
 
-class AbsMemory(metaclass=ABCMeta):
+class AbsMemory(AbcMonitor, metaclass=ABCMeta):
 
     # region initialization
 
     def __init__(self, monitoring_latency):
+        super().__init__(monitoring_latency)
         self.__total = self._get_total_memory()
         self.__available = self._get_available_memory()
-        self.__monitoring_latency = None
-        self.monitoring_latency = monitoring_latency
-        self.__monitoring = False
 
     # endregion
 
     # region properties
-
-    @property
-    def monitoring(self):
-        return self.__monitoring
-
-    @property
-    def monitoring_latency(self):
-        return self.__monitoring_latency
-
-    @monitoring_latency.setter
-    def monitoring_latency(self, value):
-        self.__monitoring_latency = value
 
     @property
     def total(self):
@@ -48,24 +34,10 @@ class AbsMemory(metaclass=ABCMeta):
 
     # endregion
 
-    # region methods
+    # region methods & abstract methods
 
-    def start_monitoring(self):
-        if self.__monitoring is False:
-            self.__monitoring = True
-            self.__monitoring_action()
-
-    def stop_monitoring(self):
-        self.__monitoring = False
-
-    def __monitoring_action(self):
-        if self.__monitoring is True:
-            self.__available = self._get_available_memory()
-            Timer(self.monitoring_latency, self.__monitoring_action).start()
-
-    # endregion
-
-    # region abstract methods
+    def _monitoring_action(self):
+        self.__available = self._get_available_memory()
 
     @abstractmethod
     def _get_total_memory(self):
