@@ -1,10 +1,14 @@
-__author__ = 'uzumaxy'
-
 from abc import ABCMeta, abstractmethod
 from threading import Timer
 
 
 class AbcMonitor(metaclass=ABCMeta):
+    """Base class for entities, which require repeating event.
+
+    Attributes:
+        monitoring (bool): indicator activity of monitor.
+        monitoring_latency (int, float): frequency of execution monitor's action.
+    """
 
     # region initialization
 
@@ -34,11 +38,15 @@ class AbcMonitor(metaclass=ABCMeta):
     # region methods & abstract methods
 
     def start_monitoring(self):
+        """Enable periodically monitoring.
+        """
         if self.__monitoring is False:
             self.__monitoring = True
             self.__monitoring_action()
 
     def stop_monitoring(self):
+        """Disable periodically monitoring.
+        """
         self.__monitoring = False
 
     def __monitoring_action(self):
@@ -48,6 +56,8 @@ class AbcMonitor(metaclass=ABCMeta):
 
     @abstractmethod
     def _monitoring_action(self):
+        """Action, which repeated, when monitoring is enabled.
+        """
         raise NotImplementedError('Method not implemented by derived class!')
 
     # endregion

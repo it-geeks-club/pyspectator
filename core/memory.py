@@ -1,5 +1,3 @@
-__author__ = 'uzumaxy'
-
 import psutil
 from .monitoring import AbcMonitor
 from abc import ABCMeta, abstractmethod

@@ -1,8 +1,7 @@
-__author__ = 'uzumaxy'
-
 import psutil
 import platform
 from .memory import NonvolatileMemory, VirtualMemory, SwapMemory
+from .processor import Processor
 
 
 class Computer(object):
@@ -15,6 +14,7 @@ class Computer(object):
         self.__python_version = '{0} ver. {1}'.format(
             platform.python_implementation(), platform.python_version()
         )
+        self.__processor = Processor(monitoring_latency=1)
         self.__nonvolatile_memory = NonvolatileMemory(monitoring_latency=10)
         self.__virtual_memory = VirtualMemory(monitoring_latency=1)
         self.__swap_memory = SwapMemory(monitoring_latency=3)
@@ -22,6 +22,10 @@ class Computer(object):
     # endregion
 
     # region properties
+
+    @property
+    def processor(self):
+        return self.__processor
 
     @property
     def boot_time(self):
