@@ -45,7 +45,7 @@ coverage.xml
 docs/_build/
 
 # IDE
-.idea/* 
+.idea/ 
 
 # OS
 *~
