@@ -1,5 +1,6 @@
 import psutil
 import platform
+from datetime import datetime
 from .memory import NonvolatileMemory, VirtualMemory, SwapMemory
 from .processor import Processor
 
@@ -9,6 +10,7 @@ class Computer(object):
     # region initialization
 
     def __init__(self):
+        self.datetime_format = '%H:%M:%S %d/%m/%Y'
         self.__hostname = platform.node()
         self.__os = platform.system()
         self.__python_version = '{0} ver. {1}'.format(
@@ -28,8 +30,20 @@ class Computer(object):
         return self.__processor
 
     @property
-    def boot_time(self):
+    def raw_boot_time(self):
         return psutil.boot_time()
+
+    @property
+    def boot_time(self):
+        return datetime.fromtimestamp(self.raw_boot_time).strftime(self.datetime_format)
+
+    @property
+    def raw_uptime(self):
+        return datetime.now() - datetime.fromtimestamp(self.raw_boot_time)
+
+    @property
+    def uptime(self):
+        return str(self.raw_uptime).split('.')[0]
 
     @property
     def os(self):

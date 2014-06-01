@@ -20,6 +20,7 @@ def start(computer):
         print('CPU name: ' + str(computer.processor.name))
         print('Amount of CPU cores: ' + str(computer.processor.count))
         print('Boot time: ' + str(computer.boot_time))
+        print('Uptime: ' + str(computer.uptime))
         print('Used CPU: ' + str(computer.processor.percent))
         cpu_temperature = 'unknown' if computer.processor.temperature is None else str(computer.processor.temperature)
         print('CPU temperature: ' + cpu_temperature)
