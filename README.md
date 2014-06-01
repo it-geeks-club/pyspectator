@@ -7,4 +7,4 @@ Requirements
 ===========
 
 - Python version: 3.X
-- Packages: psutil
+- Packages: psutil, whmi (only on Windows)
