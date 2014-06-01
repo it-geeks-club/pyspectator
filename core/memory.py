@@ -25,6 +25,10 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
         return self.__available
 
     @property
+    def used(self):
+        return self.total - self.available
+
+    @property
     def percent(self):
         _percent = (self.total - self.available) / self.total
         _percent = '{:.2%}'.format(_percent)
