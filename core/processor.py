@@ -5,17 +5,33 @@ import subprocess
 import re
 from .monitoring import AbcMonitor
 from collections import Callable
+from core.collections import LimitedTimeTable
+from datetime import datetime, timedelta
 
 
 class Processor(AbcMonitor):
 
-    def __init__(self, monitoring_latency):
+    # region initialization
+
+    def __init__(self, monitoring_latency, stats_interval=None):
         super().__init__(monitoring_latency)
         self.__count = psutil.cpu_count()
-        self.__percent = psutil.cpu_percent()
         self.__name = Processor.__get_processor_name()
+        # Init updating values
+        self.__percent = psutil.cpu_percent()
         self.__temperature = None
         self.__temperature_reader = Processor.__get_processor_temperature_reader()
+        if isinstance(self.__temperature_reader, Callable):
+            self.__temperature = self.__temperature_reader()
+        # Prepare to collect statistics
+        if stats_interval is None:
+            stats_interval = timedelta(hours=1)
+        self.__percent_stats = LimitedTimeTable(stats_interval)
+        self.__temperature_stats = LimitedTimeTable(stats_interval)
+
+    # endregion
+
+    # region properties
 
     @property
     def name(self):
@@ -33,10 +49,25 @@ class Processor(AbcMonitor):
     def temperature(self):
         return self.__temperature
 
+    @property
+    def percent_stats(self):
+        return self.__percent_stats
+
+    @property
+    def temperature_stats(self):
+        return self.__temperature_stats
+
+    # endregion
+
+    # region instance and class methods
+
     def _monitoring_action(self):
+        now = datetime.now()
         self.__percent = psutil.cpu_percent()
+        self.__percent_stats[now] = self.__percent
         if isinstance(self.__temperature_reader, Callable):
             self.__temperature = self.__temperature_reader()
+            self.__temperature_stats[now] = self.__temperature
 
     @classmethod
     def __get_processor_name(cls):
@@ -78,4 +109,7 @@ class Processor(AbcMonitor):
             elif os.path.exists('/proc/acpi/thermal_zone/THR1/temperature') is True:
                 func = lambda: open('/proc/acpi/thermal_zone/THR1/temperature').read().strip().lstrip('temperature :').rstrip(' C')
         return func
+
+    # endregion
+
     pass
