@@ -1,5 +1,6 @@
 import subprocess
 import platform
+from os import linesep
 from time import sleep
 
 clear_command = "cls" if platform.system() == "Windows" else "clear"
@@ -9,8 +10,15 @@ def clear():
     subprocess.call(clear_command, shell=True)
 
 
+def print_hr(space_before=False, space_after=False):
+    before = linesep if space_before else ''
+    after = linesep if space_after else ''
+    print(before + '-' * 80 + after)
+
+
 def start(computer):
     print('Start monitoring system...')
+    print_hr(space_after=True)
     # Show system info for ~16 seconds
     for _ in range(16):
         clear()
@@ -37,4 +45,19 @@ def start(computer):
         ))
         sleep(1)
     clear()
+    # Output CPU statistic
+    print('{0:_^26}_{1:_^26}_{2:_^26}'.format('Time', 'CPU load', 'CPU temperature'))
+    percent_stats = computer.processor.percent_stats
+    temperature_stats = computer.processor.temperature_stats
+    count = max(len(percent_stats), len(temperature_stats))
+    percent_stats_timetable = sorted(percent_stats)[0:count]
+    temperature_stats_timetable = sorted(temperature_stats)[0:count]
+    for percent_dtime, temperature_dtime in zip(percent_stats_timetable, temperature_stats_timetable):
+        current_line = '{0: ^26} {1: ^26} {2: ^26}'.format(
+            percent_dtime.strftime('%H:%M:%S'),
+            str(percent_stats[percent_dtime]) + '%',
+            str(temperature_stats[temperature_dtime]) + '°C'
+        )
+        print(current_line)
+    print_hr(space_before=True)
     print('Shutdown monitoring system...')
