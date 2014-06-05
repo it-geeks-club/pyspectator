@@ -80,11 +80,45 @@ class SwapMemory(AbsMemory):
 
 class NonvolatileMemory(AbsMemory):
 
-    def __init__(self, monitoring_latency):
+    def __init__(self, monitoring_latency, device):
+        dev_info = None
+        for current_dev_info in psutil.disk_partitions():
+            if current_dev_info.device == device:
+                dev_info = current_dev_info
+                break
+        if dev_info is None:
+            raise DeviceNotFoundException('Device {0} not found!'.format(device))
+        self.__device = device
+        self.__mountpoint = dev_info.mountpoint
+        self.__fstype = dev_info.fstype
         super().__init__(monitoring_latency)
 
+    @property
+    def device(self):
+        return self.__device
+
+    @property
+    def mountpoint(self):
+        return self.__mountpoint
+
+    @property
+    def fstype(self):
+        return self.__fstype
+
     def _get_available_memory(self):
-        return psutil.disk_usage('/').free
+        return psutil.disk_usage(self.mountpoint).free
 
     def _get_total_memory(self):
-        return psutil.disk_usage('/').total
+        return psutil.disk_usage(self.mountpoint).total
+
+    @staticmethod
+    def connected_devices(monitoring_latency):
+        devices = list()
+        for current_dev_info in psutil.disk_partitions():
+            current_dev = NonvolatileMemory(monitoring_latency, current_dev_info.device)
+            devices.append(current_dev)
+        return devices
+
+
+class DeviceNotFoundException(Exception):
+    pass

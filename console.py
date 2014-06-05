@@ -32,17 +32,18 @@ def start(computer):
         print('Used CPU: ' + str(computer.processor.percent))
         cpu_temperature = 'unknown' if computer.processor.temperature is None else str(computer.processor.temperature)
         print('CPU temperature: ' + cpu_temperature)
-        # Display memory info
-        print('Nonvolatile memory: used {0} from {1}, {2}'.format(
-            computer.nonvolatile_memory.available,
-            computer.nonvolatile_memory.total,
-            computer.nonvolatile_memory.percent
-        ))
+        # Display virtual memory info
         print('Virtual memory: used {0} from {1}, {2}'.format(
             computer.virtual_memory.available,
             computer.virtual_memory.total,
             computer.virtual_memory.percent
         ))
+        # Display nonvolatile memory info
+        output_format1 = '{0:_^16}{1:_^16}{2:_^16}{3:_^16}{4:_^16}'
+        output_format2 = '{0: ^16}{1: ^16}{2: ^16}{3: ^16}{4: ^16}'
+        print(output_format1.format('Device', 'Total', 'Use', 'Type', 'Mount'))
+        for dev in computer.nonvolatile_memory:
+            print(output_format2.format(dev.device, dev.total, dev.percent, dev.fstype, dev.mountpoint))
         sleep(1)
     clear()
     # Output CPU statistic

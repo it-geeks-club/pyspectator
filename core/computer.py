@@ -17,7 +17,7 @@ class Computer(object):
             platform.python_implementation(), platform.python_version()
         )
         self.__processor = Processor(monitoring_latency=1)
-        self.__nonvolatile_memory = NonvolatileMemory(monitoring_latency=10)
+        self.__nonvolatile_memory = NonvolatileMemory.connected_devices(monitoring_latency=10)
         self.__virtual_memory = VirtualMemory(monitoring_latency=1)
         self.__swap_memory = SwapMemory(monitoring_latency=3)
 
