@@ -88,6 +88,7 @@ class NonvolatileMemory(AbsMemory):
                 break
         if dev_info is None:
             raise DeviceNotFoundException('Device {0} not found!'.format(device))
+        self.__is_alive = True
         self.__device = device
         self.__mountpoint = dev_info.mountpoint
         self.__fstype = dev_info.fstype
@@ -105,19 +106,32 @@ class NonvolatileMemory(AbsMemory):
     def fstype(self):
         return self.__fstype
 
+    @property
+    def is_alive(self):
+        return self.__is_alive
+
     def _get_available_memory(self):
         return psutil.disk_usage(self.mountpoint).free
 
     def _get_total_memory(self):
         return psutil.disk_usage(self.mountpoint).total
 
+    def _monitoring_action(self):
+        self.__is_alive = self.device not in NonvolatileMemory.names_connected_devices()
+        if self.is_alive:
+            super()._monitoring_action()
+
     @staticmethod
-    def connected_devices(monitoring_latency):
+    def instances_connected_devices(monitoring_latency):
         devices = list()
         for current_dev_info in psutil.disk_partitions():
             current_dev = NonvolatileMemory(monitoring_latency, current_dev_info.device)
             devices.append(current_dev)
         return devices
+
+    @staticmethod
+    def names_connected_devices():
+        return [dev_info.device for dev_info in psutil.disk_partitions()]
 
 
 class DeviceNotFoundException(Exception):

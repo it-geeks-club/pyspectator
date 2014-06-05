@@ -37,7 +37,7 @@ def start(computer):
             computer.virtual_memory.available,
             computer.virtual_memory.total,
             computer.virtual_memory.percent
-        ))
+        ))  # TODO: convert to human-readable format
         # Display nonvolatile memory info
         output_format1 = '{0:_^16}{1:_^16}{2:_^16}{3:_^16}{4:_^16}'
         output_format2 = '{0: ^16}{1: ^16}{2: ^16}{3: ^16}{4: ^16}'
@@ -58,7 +58,7 @@ def start(computer):
             percent_dtime.strftime('%H:%M:%S'),
             str(percent_stats[percent_dtime]) + '%',
             str(temperature_stats[temperature_dtime]) + '°C'
-        )
+        ) # TODO: convert to human-readable format
         print(current_line)
     print_hr(space_before=True)
     print('Shutdown monitoring system...')

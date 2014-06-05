@@ -3,9 +3,10 @@ import platform
 from datetime import datetime
 from .memory import NonvolatileMemory, VirtualMemory, SwapMemory
 from .processor import Processor
+from .monitoring import AbcMonitor
 
 
-class Computer(object):
+class Computer(AbcMonitor):
 
     # region initialization
 
@@ -17,9 +18,11 @@ class Computer(object):
             platform.python_implementation(), platform.python_version()
         )
         self.__processor = Processor(monitoring_latency=1)
-        self.__nonvolatile_memory = NonvolatileMemory.connected_devices(monitoring_latency=10)
+        self.__nonvolatile_memory = NonvolatileMemory.instances_connected_devices(monitoring_latency=10)
+        self.__nonvolatile_memory_devices = set([dev_info.device for dev_info in self.__nonvolatile_memory])
         self.__virtual_memory = VirtualMemory(monitoring_latency=1)
-        self.__swap_memory = SwapMemory(monitoring_latency=3)
+        self.__swap_memory = SwapMemory(monitoring_latency=1)
+        super().__init__(monitoring_latency=3)
 
     # endregion
 
@@ -70,5 +73,18 @@ class Computer(object):
         return self.__swap_memory
 
     # endregion
+
+    def _monitoring_action(self):
+        # Look for connected & ejected nonvolatile memory devices
+        for dev in self.nonvolatile_memory:
+            if not dev.is_alive:
+                dev.stop_monitoring()
+                self.__nonvolatile_memory_devices.remove(dev.device)
+                self.__nonvolatile_memory.remove(dev)
+        connected_dev = set(NonvolatileMemory.names_connected_devices()) - self.__nonvolatile_memory_devices
+        for dev_name in connected_dev:
+            dev = NonvolatileMemory(monitoring_latency=10, device=dev_name)
+            self.__nonvolatile_memory.append(dev)
+            self.__nonvolatile_memory_devices.add(dev_name)
 
     pass
