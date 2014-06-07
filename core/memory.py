@@ -30,8 +30,7 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
 
     @property
     def percent(self):
-        _percent = (self.total - self.available) / self.total
-        _percent = '{:.2%}'.format(_percent)
+        _percent = int((self.total - self.available) / self.total * 100)
         return _percent
 
     # endregion
