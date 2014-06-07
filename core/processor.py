@@ -15,19 +15,19 @@ class Processor(AbcMonitor):
 
     def __init__(self, monitoring_latency, stats_interval=None):
         super().__init__(monitoring_latency)
-        self.__count = psutil.cpu_count()
         self.__name = Processor.__get_processor_name()
-        # Init updating values
-        self.__percent = psutil.cpu_percent()
+        self.__count = psutil.cpu_count()
+        self.__percent = None
         self.__temperature = None
+        # Init temperature reader
         self.__temperature_reader = Processor.__get_processor_temperature_reader()
-        if isinstance(self.__temperature_reader, Callable):
-            self.__temperature = self.__temperature_reader()
         # Prepare to collect statistics
         if stats_interval is None:
             stats_interval = timedelta(hours=1)
         self.__percent_stats = LimitedTimeTable(stats_interval)
         self.__temperature_stats = LimitedTimeTable(stats_interval)
+        # Read updating value at first time
+        self._monitoring_action()
 
     # endregion
 
@@ -101,7 +101,7 @@ class Processor(AbcMonitor):
             if os.path.exists('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp') is True:
                 func = lambda: open('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp').read().strip().rstrip('000')
             elif os.path.exists('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp') is True:
-                func = lambda: open('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp').read().strip().rstrip('000')
+                func = lambda: int(open('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp').read().strip()) // 1000
             elif os.path.exists('/proc/acpi/thermal_zone/THM0/temperature') is True:
                 func = lambda: open('/proc/acpi/thermal_zone/THM0/temperature').read().strip().lstrip('temperature :').rstrip(' C')
             elif os.path.exists('/proc/acpi/thermal_zone/THRM/temperature') is True:
