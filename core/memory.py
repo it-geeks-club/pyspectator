@@ -1,16 +1,26 @@
 import psutil
-from .monitoring import AbcMonitor
 from abc import ABCMeta, abstractmethod
+from datetime import timedelta, datetime
+from .monitoring import AbcMonitor
+from .collections import LimitedTimeTable
 
 
 class AbsMemory(AbcMonitor, metaclass=ABCMeta):
 
     # region initialization
 
-    def __init__(self, monitoring_latency):
-        super().__init__(monitoring_latency)
+    def __init__(self, monitoring_latency, stats_interval=None):
         self.__total = self._get_total_memory()
+        self.__available = None
+        # Prepare to collect statistic
+        if stats_interval is None:
+            stats_interval = timedelta(hours=1)
+        self.__available_stats = LimitedTimeTable(stats_interval)
+        # Get info about available memory
         self.__available = self._get_available_memory()
+        self.__available_stats[datetime.now()] = self.__available
+        # Init base class
+        super().__init__(monitoring_latency)
 
     # endregion
 
@@ -39,6 +49,7 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
 
     def _monitoring_action(self):
         self.__available = self._get_available_memory()
+        self.__available_stats[datetime.now()] = self.__available
 
     @abstractmethod
     def _get_total_memory(self):
