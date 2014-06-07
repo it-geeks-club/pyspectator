@@ -18,4 +18,5 @@ computer.processor.stop_monitoring()
 for mem in computer.nonvolatile_memory:
     mem.stop_monitoring()
 computer.virtual_memory.stop_monitoring()
+computer.stop_monitoring()
 sleep(1)
