@@ -13,6 +13,7 @@ class UnitByte(IntEnum):
     zettabyte = 2 ** 70
     yottabyte = 2 ** 80
 
+
     @staticmethod
     def convert(byte_value, unitbyte):
         converted_value = None
@@ -31,3 +32,21 @@ class UnitByte(IntEnum):
                 converted_value = temp_value
                 break
         return converted_value, used_unitbyte
+
+    @staticmethod
+    def get_name_reduction(unitbyte):
+        reductions_en = {
+            UnitByte.byte: 'B',
+            UnitByte.kilobyte: 'KB',
+            UnitByte.megabyte: 'MB',
+            UnitByte.gigabyte: 'GB',
+            UnitByte.terabyte: 'TB',
+            UnitByte.petabyte: 'PB',
+            UnitByte.exabyte: 'EB',
+            UnitByte.zettabyte: 'ZB',
+            UnitByte.yottabyte: 'YB'
+        }
+        reduction = None
+        if unitbyte in UnitByte:
+            reduction = reductions_en[unitbyte]
+        return reduction
