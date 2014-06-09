@@ -9,17 +9,18 @@ def main():
     ]
     if platform.system() == 'Windows':
         requires.append('wmi >= 1.4.9')
+    description = 'pyspectator is a cross-platform library for retrieving full information about computer.'
     setup(
         name='pyspectator',
-        version='1.0.0',
+        version='1.0.1',
         author='Maxim Grischuk, Vova Sirenko',
         author_email='uzumaxy@gmail.com',
         packages=['pyspectator'],
         url='https://github.com/opium999/pyspectator',
         download_url='https://github.com/opium999/pyspectator/releases',
         license='BSD',
-        description='pyspectator is a cross-platform library for retrieving full information about computer.',
-        long_description=open('README.md').read(),
+        description=description,
+        long_description=description,
         install_requires=requires,
         keywords=['spectator', 'monitoring', 'statistic', 'mem', 'network', 'io', 'cpu', 'disk'],
         platforms='Platform Independent',
