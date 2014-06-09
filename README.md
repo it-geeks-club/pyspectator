@@ -7,4 +7,4 @@ Requirements
 ===========
 
 - Python version: 3.X
-- Packages: psutil, wmi (only on Windows)
+- Packages: psutil, netifaces, wmi (only on Windows)
