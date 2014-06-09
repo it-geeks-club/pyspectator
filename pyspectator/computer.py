@@ -1,9 +1,9 @@
 import psutil
 import platform
 from datetime import datetime
-from .memory import NonvolatileMemory, VirtualMemory, SwapMemory
-from .processor import Processor
-from .monitoring import AbcMonitor
+from pyspectator.memory import NonvolatileMemory, VirtualMemory, SwapMemory
+from pyspectator.processor import Processor
+from pyspectator.monitoring import AbcMonitor
 
 
 class Computer(AbcMonitor):

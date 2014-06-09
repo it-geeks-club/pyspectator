@@ -2,7 +2,7 @@ import subprocess
 import platform
 from os import linesep
 from time import sleep
-from core.convert import UnitByte
+from pyspectator.convert import UnitByte
 
 
 clear_command = "cls" if platform.system() == "Windows" else "clear"

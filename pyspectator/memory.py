@@ -1,8 +1,8 @@
 import psutil
 from abc import ABCMeta, abstractmethod
 from datetime import timedelta, datetime
-from .monitoring import AbcMonitor
-from .collections import LimitedTimeTable
+from pyspectator.monitoring import AbcMonitor
+from pyspectator.collection import LimitedTimeTable
 
 
 class AbsMemory(AbcMonitor, metaclass=ABCMeta):

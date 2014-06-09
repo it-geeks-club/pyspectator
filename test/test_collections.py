@@ -1,5 +1,5 @@
 import pytest
-from core.collections import LimitedTimeTable
+from pyspectator.collection import LimitedTimeTable
 from datetime import timedelta, datetime
 from time import sleep
 

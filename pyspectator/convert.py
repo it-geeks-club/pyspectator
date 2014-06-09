@@ -13,7 +13,6 @@ class UnitByte(IntEnum):
     zettabyte = 2 ** 70
     yottabyte = 2 ** 80
 
-
     @staticmethod
     def convert(byte_value, unitbyte):
         converted_value = None

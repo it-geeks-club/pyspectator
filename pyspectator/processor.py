@@ -3,10 +3,10 @@ import platform
 import os
 import subprocess
 import re
-from .monitoring import AbcMonitor
 from collections import Callable
-from core.collections import LimitedTimeTable
 from datetime import datetime, timedelta
+from pyspectator.monitoring import AbcMonitor
+from pyspectator.collection import LimitedTimeTable
 
 
 class Processor(AbcMonitor):
