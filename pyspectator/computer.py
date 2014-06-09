@@ -1,9 +1,10 @@
 import psutil
 import platform
 from datetime import datetime
+from pyspectator.monitoring import AbcMonitor
 from pyspectator.memory import NonvolatileMemory, VirtualMemory, SwapMemory
 from pyspectator.processor import Processor
-from pyspectator.monitoring import AbcMonitor
+from pyspectator.network import NetworkInterface
 
 
 class Computer(AbcMonitor):
@@ -22,6 +23,7 @@ class Computer(AbcMonitor):
         self.__nonvolatile_memory_devices = set([dev_info.device for dev_info in self.__nonvolatile_memory])
         self.__virtual_memory = VirtualMemory(monitoring_latency=1)
         self.__swap_memory = SwapMemory(monitoring_latency=1)
+        self.__network_interface = NetworkInterface(monitoring_latency=3)
         super().__init__(monitoring_latency=3)
 
     # endregion
@@ -71,6 +73,10 @@ class Computer(AbcMonitor):
     @property
     def swap_memory(self):
         return self.__swap_memory
+
+    @property
+    def network_interface(self):
+        return self.__network_interface
 
     # endregion
 
