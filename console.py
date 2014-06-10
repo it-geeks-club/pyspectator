@@ -91,20 +91,5 @@ def start(computer):
             )
             print(output_text)
         sleep(1)
-    clear()
-    # Output CPU statistic
-    print('{0:_^26}_{1:_^26}_{2:_^26}'.format('Time', 'CPU load', 'CPU temperature'))
-    percent_stats = computer.processor.percent_stats
-    temperature_stats = computer.processor.temperature_stats
-    count = max(len(percent_stats), len(temperature_stats))
-    percent_stats_timetable = sorted(percent_stats)[0:count]
-    temperature_stats_timetable = sorted(temperature_stats)[0:count]
-    for percent_dtime, temperature_dtime in zip(percent_stats_timetable, temperature_stats_timetable):
-        current_line = '{0: ^26} {1: ^26} {2: ^26}'.format(
-            percent_dtime.strftime('%H:%M:%S'),
-            Format.percent(percent_stats[percent_dtime]),
-            Format.temperature(temperature_stats[temperature_dtime])
-        )
-        print(current_line)
     print_hr(space_before=True)
     print('Shutdown monitoring system...')
