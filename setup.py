@@ -1,7 +1,11 @@
-from distutils.core import setup
 import sys
 import platform
 import os
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 
 def main():
