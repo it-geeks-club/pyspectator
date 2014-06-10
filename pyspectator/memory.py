@@ -45,7 +45,7 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
 
     # endregion
 
-    # region methods & abstract methods
+    # region methods
 
     def _monitoring_action(self):
         self.__available = self._get_available_memory()
@@ -90,6 +90,8 @@ class SwapMemory(AbsMemory):
 
 class NonvolatileMemory(AbsMemory):
 
+    # region initialization
+
     def __init__(self, monitoring_latency, device):
         dev_info = None
         for current_dev_info in psutil.disk_partitions():
@@ -103,6 +105,10 @@ class NonvolatileMemory(AbsMemory):
         self.__mountpoint = dev_info.mountpoint
         self.__fstype = dev_info.fstype
         super().__init__(monitoring_latency)
+
+    # endregion
+
+    # region properties
 
     @property
     def device(self):
@@ -119,6 +125,10 @@ class NonvolatileMemory(AbsMemory):
     @property
     def is_alive(self):
         return self.__is_alive
+
+    # endregion
+
+    # region methods
 
     def _get_available_memory(self):
         return psutil.disk_usage(self.mountpoint).free
@@ -142,6 +152,10 @@ class NonvolatileMemory(AbsMemory):
     @staticmethod
     def names_connected_devices():
         return [dev_info.device for dev_info in psutil.disk_partitions()]
+
+    # endregion
+
+    pass
 
 
 class DeviceNotFoundException(Exception):

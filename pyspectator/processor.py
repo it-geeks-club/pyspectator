@@ -59,7 +59,7 @@ class Processor(AbcMonitor):
 
     # endregion
 
-    # region instance and class methods
+    # region methods
 
     def _monitoring_action(self):
         now = datetime.now()

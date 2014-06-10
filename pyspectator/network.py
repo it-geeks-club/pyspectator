@@ -123,3 +123,5 @@ class NetworkInterface(AbcMonitor):
             self.__bytes_recv_stats[now] = self.bytes_recv
 
     # endregion
+
+    pass

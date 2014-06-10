@@ -35,7 +35,7 @@ class AbcMonitor(metaclass=ABCMeta):
 
     # endregion
 
-    # region methods & abstract methods
+    # region methods
 
     def start_monitoring(self):
         """Enable periodically monitoring.
