@@ -80,6 +80,8 @@ class Computer(AbcMonitor):
 
     # endregion
 
+    # region methods
+
     def _monitoring_action(self):
         # Look for connected & ejected nonvolatile memory devices
         for dev in self.nonvolatile_memory:
@@ -92,5 +94,31 @@ class Computer(AbcMonitor):
             dev = NonvolatileMemory(monitoring_latency=10, device=dev_name)
             self.__nonvolatile_memory.append(dev)
             self.__nonvolatile_memory_devices.add(dev_name)
+
+    def start_monitoring(self, all_components=True):
+        super().start_monitoring()
+        if all_components:
+            self.processor.start_monitoring()
+            for mem in self.nonvolatile_memory:
+                mem.start_monitoring()
+            self.virtual_memory.start_monitoring()
+            self.network_interface.start_monitoring()
+
+    def stop_monitoring(self, all_components=True):
+        if all_components:
+            self.processor.stop_monitoring()
+            for mem in self.nonvolatile_memory:
+                mem.stop_monitoring()
+            self.virtual_memory.stop_monitoring()
+            self.network_interface.stop_monitoring()
+        super().stop_monitoring()
+
+    def __enter__(self):
+        self.start_monitoring()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.stop_monitoring()
+
+    # endregion
 
     pass
