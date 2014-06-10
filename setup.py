@@ -1,18 +1,28 @@
 from distutils.core import setup
+import sys
 import platform
+import os
 
 
 def main():
+    # Check python version
+    if sys.version_info < (3, 0, 0):
+        sys.stderr.write('You need python 3.0 or later to run this script!' + os.linesep)
+        exit(1)
+    # Generate requires
     requires = [
         "psutil >= 2.1.1",
         "netifaces >= 0.10.4",
     ]
+    if sys.version_info < (3, 4, 1):
+        requires.append("enum34 >= 1.0")
     if platform.system() == 'Windows':
         requires.append('wmi >= 1.4.9')
     description = 'pyspectator is a cross-platform library for retrieving full information about computer.'
+    # Describe installer
     setup(
         name='pyspectator',
-        version='1.0.1',
+        version='1.0.2',
         author='Maxim Grischuk, Vova Sirenko',
         author_email='uzumaxy@gmail.com',
         packages=['pyspectator'],
@@ -24,6 +34,9 @@ def main():
         install_requires=requires,
         keywords=['spectator', 'monitoring', 'statistic', 'mem', 'network', 'io', 'cpu', 'disk'],
         platforms='Platform Independent',
+        package_data={
+            'pyspectator': ['LICENSE', 'README.md']
+        },
         classifiers=[
             'Development Status :: 5 - Production/Stable',
             'Environment :: Console',
