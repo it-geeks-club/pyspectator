@@ -49,6 +49,12 @@ class AbcMonitor(metaclass=ABCMeta):
         """
         self.__monitoring = False
 
+    def __enter__(self):
+        self.start_monitoring()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.stop_monitoring()
+
     def __monitoring_action(self):
         if self.__monitoring is True:
             self._monitoring_action()
