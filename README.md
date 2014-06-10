@@ -15,4 +15,4 @@ Requirements
 ===========
 
 - Python version: 3.X
-- Packages: psutil, netifaces, wmi (only on Windows)
+- Packages: psutil, netifaces, wmi (only on Windows), enum34 (only on python 3.0.0 - 3.4.0)
