@@ -22,18 +22,27 @@ class Format(object):
 
     @staticmethod
     def temperature(value):
-        return str(value) + '°C'
+        formatted_value = ''
+        if isinstance(value, (int, float)):
+            formatted_value = str(value) + '°C'
+        return formatted_value
 
     @staticmethod
     def byte_value(value):
-        value, unit = UnitByte.auto_convert(value)
-        value = '{0:.2f}'.format(value)
-        unit = UnitByte.get_name_reduction(unit)
-        return value + unit
+        formatted_value = ''
+        if isinstance(value, (int, float)):
+            value, unit = UnitByte.auto_convert(value)
+            value = '{0:.2f}'.format(value)
+            unit = UnitByte.get_name_reduction(unit)
+            formatted_value = value + unit
+        return formatted_value
 
     @staticmethod
     def percent(value):
-        return str(value) + '%'
+        formatted_value = ''
+        if isinstance(value, (int, float)):
+            formatted_value = str(value) + '%'
+        return formatted_value
 
 
 def start(computer):
