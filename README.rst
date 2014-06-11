@@ -36,7 +36,7 @@ Example usages
 ===========
 
 Class "Computer"
-===
+======
 
 .. code-block:: python
 
@@ -52,7 +52,8 @@ Class "Computer"
     'Intel(R) Core(TM) i3-3110M CPU @ 2.40GHz'
 
 Class "Processor"
-===
+======
+
 
 .. code-block:: python
 
