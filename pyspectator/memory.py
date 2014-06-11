@@ -10,15 +10,19 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
     # region initialization
 
     def __init__(self, monitoring_latency, stats_interval=None):
-        self.__total = self._get_total_memory()
-        self.__available = None
         # Prepare to collect statistic
         if stats_interval is None:
             stats_interval = timedelta(hours=1)
         self.__available_stats = LimitedTimeTable(stats_interval)
-        # Get info about available memory
-        self.__available = self._get_available_memory()
-        self.__available_stats[datetime.now()] = self.__available
+        # Get info about total and available memory
+        try:
+            self.__total = self._get_total_memory()
+            self.__available = self._get_available_memory()
+            self.__available_stats[datetime.now()] = self.__available
+        except:
+            self.__total = None
+            self.__available = None
+            self.__available_stats.clear()
         # Init base class
         super().__init__(monitoring_latency)
 
@@ -36,20 +40,30 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
 
     @property
     def used(self):
-        return self.total - self.available
+        used_mem = None
+        if (self.total is not None) and (self.available is not None):
+            used_mem = self.total - self.available
+        return used_mem
 
     @property
     def percent(self):
-        _percent = int((self.total - self.available) / self.total * 100)
-        return _percent
+        mem_percent = None
+        if (self.total is not None) and (self.available is not None):
+            mem_percent = int((self.total - self.available) / self.total * 100)
+        return mem_percent
 
     # endregion
 
     # region methods
 
     def _monitoring_action(self):
-        self.__available = self._get_available_memory()
-        self.__available_stats[datetime.now()] = self.__available
+        try:
+            self.__available = self._get_available_memory()
+            self.__available_stats[datetime.now()] = self.__available
+        except:
+            self.__available = None
+            self.__available_stats.clear()
+            self.stop_monitoring()
 
     @abstractmethod
     def _get_total_memory(self):
