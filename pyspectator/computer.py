@@ -14,7 +14,7 @@ class Computer(AbcMonitor):
     def __init__(self):
         self.datetime_format = '%H:%M:%S %d/%m/%Y'
         self.__hostname = platform.node()
-        self.__os = platform.system()
+        self.__os = Computer.__get_os_name()
         self.__python_version = '{0} ver. {1}'.format(
             platform.python_implementation(), platform.python_version()
         )
@@ -81,6 +81,13 @@ class Computer(AbcMonitor):
     # endregion
 
     # region methods
+
+    @classmethod
+    def __get_os_name(cls):
+        system = '{0} {1}'.format(platform.system(), platform.release()).strip()
+        if ('Linux' in system) and ('' not in platform.linux_distribution()):
+            system = ' '.join(platform.linux_distribution())
+        return system
 
     def _monitoring_action(self):
         # Look for connected & ejected nonvolatile memory devices
