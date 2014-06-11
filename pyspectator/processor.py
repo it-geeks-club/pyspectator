@@ -94,7 +94,7 @@ class Processor(AbcMonitor):
         os_name = platform.system()
         if os_name == 'Windows':
             import wmi
-            func = lambda: wmi.WMI(namespace='root\\wmi').MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0 - 273.15
+            func = lambda: int(wmi.WMI(namespace='root\\wmi').MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0 - 273.15)
         elif os_name == 'Darwin':
             pass
         elif os_name == 'Linux':
