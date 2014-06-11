@@ -19,6 +19,7 @@ How to install
 Run as root user:
 
 .. code-block:: bash
+
     pip install pyspectator
 
 
