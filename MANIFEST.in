@@ -1,1 +1,3 @@
+include runner README.md
+include runner LICENSE
 recursive-exclude test *

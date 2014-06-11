@@ -41,6 +41,7 @@ def main():
         package_data={
             'pyspectator': ['LICENSE', 'README.md']
         },
+        scripts=['console.py'],
         classifiers=[
             'Development Status :: 5 - Production/Stable',
             'Environment :: Console',
