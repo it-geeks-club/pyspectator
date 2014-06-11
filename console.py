@@ -45,7 +45,7 @@ class Format(object):
         return formatted_value
 
 
-def start(computer):
+def main(computer):
     print('Start monitoring system...')
     print_hr(space_after=True)
     # Show system info for ~16 seconds
@@ -102,3 +102,13 @@ def start(computer):
         sleep(1)
     print_hr(space_before=True)
     print('Shutdown monitoring system...')
+
+
+if __name__ == '__main__':
+    # Initialize computer instance
+    from pyspectator.computer import Computer
+    curr_computer = Computer()
+    # Start monitoring system
+    with curr_computer:
+        # Start console interface
+        main(curr_computer)
