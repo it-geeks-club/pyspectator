@@ -15,6 +15,7 @@ class Computer(AbcMonitor):
         self.datetime_format = '%H:%M:%S %d/%m/%Y'
         self.__hostname = platform.node()
         self.__os = Computer.__get_os_name()
+        self.__architecture = platform.machine()
         self.__python_version = '{0} ver. {1}'.format(
             platform.python_implementation(), platform.python_version()
         )
@@ -53,6 +54,10 @@ class Computer(AbcMonitor):
     @property
     def os(self):
         return self.__os
+
+    @property
+    def architecture(self):
+        return self.__architecture
 
     @property
     def python_version(self):
