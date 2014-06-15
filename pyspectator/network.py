@@ -31,7 +31,7 @@ class NetworkInterface(AbcMonitor):
                     if af_inet['addr'] != self.__ip_address:
                         continue
                     af_link = addresses[nif.AF_LINK][0]
-                    self.__name = interface
+                    self.__name = NetworkInterface.__check_interface_name(interface)
                     self.__hardware_address = af_link['addr']
                     self.__broadcast_address = af_inet['broadcast']
                     self.__subnet_mask = af_inet['netmask']
@@ -100,6 +100,17 @@ class NetworkInterface(AbcMonitor):
     # endregion
 
     # region methods
+
+    @classmethod
+    def __check_interface_name(cls, name):
+        net_io = psutil.net_io_counters(pernic=True)
+        if name in net_io:
+            return name
+        for curr_nif_name in net_io:
+            if name in curr_nif_name:
+                name = curr_nif_name
+                break
+        return name
 
     @classmethod
     def __get_active_ip_address(cls):
