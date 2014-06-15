@@ -90,26 +90,69 @@ class Processor(AbcMonitor):
 
     @classmethod
     def __get_processor_temperature_reader(cls):
-        func = None
+        reader = None
         os_name = platform.system()
         if os_name == 'Windows':
-            import wmi
-            func = lambda: int(wmi.WMI(namespace='root\\wmi').MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature / 10.0 - 273.15)
+            reader = cls.__windows_processor_temperature_reader()
         elif os_name == 'Darwin':
-            pass
+            pass  # TODO: try to use C lib  - https://github.com/lavoiesl/osx-cpu-temp
         elif os_name == 'Linux':
-            if os.path.exists('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp') is True:
-                func = lambda: open('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp').read().strip().rstrip('000')
-            elif os.path.exists('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp') is True:
-                func = lambda: int(open('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp').read().strip()) // 1000
-            elif os.path.exists('/proc/acpi/thermal_zone/THM0/temperature') is True:
-                func = lambda: open('/proc/acpi/thermal_zone/THM0/temperature').read().strip().lstrip('temperature :').rstrip(' C')
-            elif os.path.exists('/proc/acpi/thermal_zone/THRM/temperature') is True:
-                func = lambda: open('/proc/acpi/thermal_zone/THRM/temperature').read().strip().lstrip('temperature :').rstrip(' C')
-            elif os.path.exists('/proc/acpi/thermal_zone/THR1/temperature') is True:
-                func = lambda: open('/proc/acpi/thermal_zone/THR1/temperature').read().strip().lstrip('temperature :').rstrip(' C')
-        return func
+            reader = cls.__linux__processor_temperature_reader()
+        return reader
 
     # endregion
+
+    @classmethod
+    def __windows_processor_temperature_reader(cls):
+        import wmi
+        import pythoncom
+        def temperature_reader():
+            pythoncom.CoInitialize()
+            w = wmi.WMI(namespace='root\\wmi')
+            temperature = w.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature
+            temperature = int(temperature / 10.0 - 273.15)
+            return temperature
+        return temperature_reader
+
+    @classmethod
+    def __linux__processor_temperature_reader(cls):
+        reader = None
+
+        def temperature_reader1():
+            temperature = open('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp').read().strip()
+            temperature = int(temperature) // 1000
+            return temperature
+
+        def temperature_reader2():
+            temperature = open('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp').read().strip()
+            temperature = int(temperature) // 1000
+            return temperature
+
+        def temperature_reader3():
+            temperature = open('/proc/acpi/thermal_zone/THM0/temperature').read().strip()
+            temperature = temperature.lstrip('temperature :').rstrip(' C')
+            return int(temperature)
+
+        def temperature_reader4():
+            temperature = open('/proc/acpi/thermal_zone/THRM/temperature').read().strip()
+            temperature = temperature.lstrip('temperature :').rstrip(' C')
+            return int(temperature)
+
+        def temperature_reader5():
+            temperature = open('/proc/acpi/thermal_zone/THR1/temperature').read().strip()
+            temperature = temperature.lstrip('temperature :').rstrip(' C')
+            return int(temperature)
+
+        if os.path.exists('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp') is True:
+            reader = temperature_reader1
+        elif os.path.exists('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp') is True:
+            reader = temperature_reader2
+        elif os.path.exists('/proc/acpi/thermal_zone/THM0/temperature') is True:
+            reader = temperature_reader3
+        elif os.path.exists('/proc/acpi/thermal_zone/THRM/temperature') is True:
+            reader = temperature_reader4
+        elif os.path.exists('/proc/acpi/thermal_zone/THR1/temperature') is True:
+            reader = temperature_reader5
+        return reader
 
     pass
