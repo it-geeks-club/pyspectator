@@ -17,14 +17,14 @@ class Processor(AbcMonitor):
         super().__init__(monitoring_latency)
         self.__name = Processor.__get_processor_name()
         self.__count = psutil.cpu_count()
-        self.__percent = None
+        self.__load = None
         self.__temperature = None
         # Init temperature reader
         self.__temperature_reader = Processor.__get_processor_temperature_reader()
         # Prepare to collect statistics
         if stats_interval is None:
             stats_interval = timedelta(hours=1)
-        self.__percent_stats = LimitedTimeTable(stats_interval)
+        self.__load_stats = LimitedTimeTable(stats_interval)
         self.__temperature_stats = LimitedTimeTable(stats_interval)
         # Read updating value at first time
         self._monitoring_action()
@@ -42,16 +42,16 @@ class Processor(AbcMonitor):
         return self.__count
 
     @property
-    def percent(self):
-        return self.__percent
+    def load(self):
+        return self.__load
 
     @property
     def temperature(self):
         return self.__temperature
 
     @property
-    def percent_stats(self):
-        return self.__percent_stats
+    def load_stats(self):
+        return self.__load_stats
 
     @property
     def temperature_stats(self):
@@ -63,8 +63,8 @@ class Processor(AbcMonitor):
 
     def _monitoring_action(self):
         now = datetime.now()
-        self.__percent = psutil.cpu_percent()
-        self.__percent_stats[now] = self.__percent
+        self.__load = psutil.cpu_percent()
+        self.__load_stats[now] = self.__load
         if isinstance(self.__temperature_reader, Callable):
             self.__temperature = self.__temperature_reader()
             self.__temperature_stats[now] = self.__temperature

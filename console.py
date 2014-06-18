@@ -58,7 +58,7 @@ def main(computer):
         # Display CPU info
         print('CPU name: ' + str(computer.processor.name))
         print('Amount of CPU cores: ' + str(computer.processor.count))
-        print('CPU load: ' + Format.percent(computer.processor.percent))
+        print('CPU load: ' + Format.percent(computer.processor.load))
         cpu_temperature = 'unknown'
         if computer.processor.temperature is not None:
             cpu_temperature = Format.temperature(computer.processor.temperature)
@@ -83,7 +83,7 @@ def main(computer):
         print('Virtual memory: use {0} from {1}, {2}'.format(
             Format.byte_value(computer.virtual_memory.available),
             Format.byte_value(computer.virtual_memory.total),
-            Format.percent(computer.virtual_memory.percent)
+            Format.percent(computer.virtual_memory.used_percent)
         ))
         print('')
         # Display nonvolatile memory info
@@ -94,7 +94,7 @@ def main(computer):
             output_text = output_format2.format(
                 dev.device,
                 Format.byte_value(dev.total),
-                Format.percent(dev.percent),
+                Format.percent(dev.used_percent),
                 dev.fstype,
                 dev.mountpoint
             )

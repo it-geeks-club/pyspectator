@@ -46,11 +46,12 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
         return used_mem
 
     @property
-    def percent(self):
-        mem_percent = None
-        if (self.total is not None) and (self.available is not None):
-            mem_percent = int((self.total - self.available) / self.total * 100)
-        return mem_percent
+    def used_percent(self):
+        percent = None
+        used = self.used
+        if used is not None:
+            percent = int(used / self.total * 100)
+        return percent
 
     # endregion
 
