@@ -38,7 +38,16 @@ def main():
         description='pyspectator is a cross-platform tool for retrieving full information about computer.',
         long_description=open('README.rst').read(),
         install_requires=requires,
-        keywords=['spectator', 'monitoring', 'statistic', 'mem', 'network', 'io', 'cpu', 'disk'],
+        keywords=[
+            'pyspectator', 'spectator',
+            'monitoring', 'tool',
+            'statistic', 'stats',
+            'computer', 'pc', 'server',
+            'mem', 'memory',
+            'network', 'net', 'io',
+            'processor', 'cpu',
+            'hdd', 'hard', 'disk', 'drive'
+        ],
         platforms='Platform Independent',
         package_data={
             'pyspectator': ['LICENSE', 'README.rst']
@@ -47,13 +56,20 @@ def main():
         classifiers=[
             'Development Status :: 5 - Production/Stable',
             'Environment :: Console',
+            'Environment :: MacOS X',
             'Environment :: Win32 (MS Windows)',
             'Intended Audience :: Developers',
             'Intended Audience :: Information Technology',
             'Intended Audience :: System Administrators',
             'License :: OSI Approved :: BSD License',
+            'Natural Language :: English',
             'Operating System :: MacOS :: MacOS X',
+            'Operating System :: Microsoft :: Windows :: Windows 7',
             'Operating System :: Microsoft :: Windows :: Windows NT/2000',
+            'Operating System :: Microsoft :: Windows :: Windows Server 2003',
+            'Operating System :: Microsoft :: Windows :: Windows Server 2008',
+            'Operating System :: Microsoft :: Windows :: Windows Vista',
+            'Operating System :: Microsoft :: Windows :: Windows XP',
             'Operating System :: Microsoft',
             'Operating System :: OS Independent',
             'Operating System :: POSIX :: BSD :: FreeBSD',
