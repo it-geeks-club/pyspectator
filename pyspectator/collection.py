@@ -34,6 +34,34 @@ class LimitedTimeTable(MutableMapping, Container):
             value = max(self.__storage.keys())
         return value
 
+    def oldest_keys(self, size):
+        for key in self.__get_slice(0, size):
+            yield key
+
+    def oldest_values(self, size):
+        for key in self.oldest_keys(size):
+            yield self.__storage.get(key)
+
+    def oldest_items(self, size):
+        for key in self.oldest_keys(size):
+            yield (key, self.__storage.get(key))
+
+    def newest_keys(self, size):
+        for key in self.__get_slice(-size, None):
+            yield key
+
+    def newest_values(self, size):
+        for key in self.newest_keys(size):
+            yield self.__storage.get(key)
+
+    def newest_items(self, size):
+        for key in self.newest_keys(size):
+            yield (key, self.__storage.get(key))
+
+    def __get_slice(self, start, end):
+        keys = sorted(self.keys())
+        return keys[start:end]
+
     def __getitem__(self, item):
         return self.__storage.__getitem__(item)
 

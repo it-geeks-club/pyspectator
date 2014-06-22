@@ -25,7 +25,7 @@ def main():
     # Describe installer
     setup(
         name='pyspectator',
-        version='1.0.6',
+        version='1.0.7',
         author='Maxim Grischuk, Vova Sirenko',
         author_email='uzumaxy@gmail.com',
         maintainer='Maxim Grischuk',
@@ -33,7 +33,6 @@ def main():
         packages=['pyspectator'],
         url='https://github.com/opium999/pyspectator',
         download_url='https://github.com/opium999/pyspectator/releases',
-        bugtrack_url='https://github.com/opium999/pyspectator/issues',
         license='BSD',
         description='pyspectator is a cross-platform tool for retrieving full information about computer.',
         long_description=open('README.rst').read(),
