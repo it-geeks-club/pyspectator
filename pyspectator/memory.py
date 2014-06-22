@@ -14,11 +14,14 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
         if stats_interval is None:
             stats_interval = timedelta(hours=1)
         self.__available_stats = LimitedTimeTable(stats_interval)
+        self.__used_percent_stats = LimitedTimeTable(stats_interval)
         # Get info about total and available memory
         try:
             self.__total = self._get_total_memory()
             self.__available = self._get_available_memory()
-            self.__available_stats[datetime.now()] = self.__available
+            now = datetime.now()
+            self.__available_stats[now] = self.__available
+            self.__used_percent_stats[now] = self.used_percent
         except:
             self.__total = None
             self.__available = None
@@ -52,6 +55,14 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
         if used is not None:
             percent = int(used / self.total * 100)
         return percent
+
+    @property
+    def available_stats(self):
+        return self.__available_stats
+
+    @property
+    def used_percent_stats(self):
+        return self.__used_percent_stats
 
     # endregion
 
