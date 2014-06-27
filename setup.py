@@ -25,7 +25,7 @@ def main():
     # Describe installer
     setup(
         name='pyspectator',
-        version='1.0.7',
+        version='1.0.8',
         author='Maxim Grischuk, Vova Sirenko',
         author_email='uzumaxy@gmail.com',
         maintainer='Maxim Grischuk',

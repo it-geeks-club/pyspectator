@@ -4,6 +4,7 @@ Summary
 
 pyspectator is a Python cross-platform tool for monitoring resources of OS: CPU, memory, disk, network.
 
+
 ==================
 Requirements
 ==================
@@ -21,6 +22,32 @@ Run as root user:
 .. code-block:: bash
 
     pip install pyspectator
+
+
+
+==================
+Example of usage
+==================
+
+There is simple project named `pyspectator_tornado <https://github.com/uzumaxy/pyspectator_tornado>`_
+developed special for demonstration of pyspectator features.
+
+.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01_thumb.png
+    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01.png
+    :alt: General information
+
+.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02_thumb.png
+    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02.png
+    :alt: CPU
+
+.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03_thumb.png
+    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03.png
+    :alt: Disk devices
+
+.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04_thumb.png
+    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04.png
+    :alt: Network
+
 
 
 ==================
