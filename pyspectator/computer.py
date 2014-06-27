@@ -13,6 +13,8 @@ class Computer(AbcMonitor):
 
     def __init__(self):
         self.datetime_format = '%H:%M:%S %d/%m/%Y'
+        self.__raw_boot_time = psutil.boot_time()
+        self.__boot_time = datetime.fromtimestamp(self.raw_boot_time).strftime(self.datetime_format)
         self.__hostname = platform.node()
         self.__os = Computer.__get_os_name()
         self.__architecture = platform.machine()
@@ -37,11 +39,11 @@ class Computer(AbcMonitor):
 
     @property
     def raw_boot_time(self):
-        return psutil.boot_time()
+        return self.__raw_boot_time
 
     @property
     def boot_time(self):
-        return datetime.fromtimestamp(self.raw_boot_time).strftime(self.datetime_format)
+        return self.__boot_time
 
     @property
     def raw_uptime(self):
