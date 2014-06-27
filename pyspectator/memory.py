@@ -20,12 +20,13 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
             self.__total = self._get_total_memory()
             self.__available = self._get_available_memory()
             now = datetime.now()
-            self.__available_stats[now] = self.__available
+            self.__available_stats[now] = self.available
             self.__used_percent_stats[now] = self.used_percent
         except:
             self.__total = None
             self.__available = None
             self.__available_stats.clear()
+            self.__used_percent_stats.clear()
         # Init base class
         super().__init__(monitoring_latency)
 
@@ -71,10 +72,13 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
     def _monitoring_action(self):
         try:
             self.__available = self._get_available_memory()
-            self.__available_stats[datetime.now()] = self.__available
+            now = datetime.now()
+            self.__available_stats[now] = self.available
+            self.__used_percent_stats[now] = self.used_percent
         except:
             self.__available = None
             self.__available_stats.clear()
+            self.__used_percent_stats.clear()
             self.stop_monitoring()
 
     @abstractmethod
