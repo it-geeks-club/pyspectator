@@ -1,21 +1,21 @@
-==================
+=======
 Summary
-==================
+=======
 
 pyspectator is a Python cross-platform tool for monitoring resources of OS: CPU, memory, disk, network.
 
 
-==================
+============
 Requirements
-==================
+============
 
 - OS: Linux, Windows, FreeBSD, Solaris
 - Python version: 3.X
 - Packages: psutil, netifaces, wmi (only on Windows), enum34 (only on python 3.0.0 - 3.4.0)
 
-==================
+==============
 How to install
-==================
+==============
 
 Run as root user:
 
@@ -25,9 +25,9 @@ Run as root user:
 
 
 
-==================
+================
 Example of usage
-==================
+================
 
 There is simple project named `pyspectator_tornado <https://github.com/uzumaxy/pyspectator_tornado>`_
 developed special for demonstration of pyspectator features.
@@ -50,16 +50,16 @@ developed special for demonstration of pyspectator features.
 
 
 
-==================
+==========
 How to use
-==================
+==========
 
 You can use pyspectator as module for your own project. Simple example of usage is presented in file "console.py".
 
-*NOTE: on Windows pyspectator can require elevated privileges. It's because Windows is fucking shit.*
+*NOTE: on Windows pyspectator can require elevated privileges.*
 
 Class "Computer"
-------------------
+----------------
 
 .. code-block:: python
 
@@ -74,24 +74,27 @@ Class "Computer"
     >>> computer.processor.name
     'Intel(R) Core(TM) i3-3110M CPU @ 2.40GHz'
 
-Class "Processor"
-------------------
+
+Class "CPU"
+-----------
 
 
 .. code-block:: python
 
-    >>> from pyspectator.processor import Processor
+    >>> from pyspectator.processor import CPU
     >>> from time import sleep
-    >>> cpu = Processor(monitoring_latency=1)
-    >>> with cpu:  # initiate monitoring of CPU resources
+    >>> cpu = CPU(monitoring_latency=1)
+    >>> with cpu:
     ...     for _ in range(8):
-    ...        cpu.percent, cpu.temperature
-    ... 
-    (8.2, 32)
-    (6.6, 32)
-    (6.6, 31)
-    (4.1, 32)
-    (5.6, 32)
-    (12.3, 33)
-    (4.5, 32)
-    (4.5, 30)
+    ...        cpu.load, cpu.temperature
+    ...        sleep(1.1)
+    ...
+    (22.6, 55)
+    (6.1, 55)
+    (5.5, 54)
+    (7.1, 54)
+    (5.6, 54)
+    (7.0, 54)
+    (10.2, 54)
+    (6.6, 54)
+

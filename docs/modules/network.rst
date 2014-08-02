@@ -1,5 +1,6 @@
 :mod:`network` -- Network monitor
-=======================================
+=================================
+
 
 .. module:: network
    :platform: Unix, Windows, MacOS, POSIX

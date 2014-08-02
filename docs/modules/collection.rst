@@ -1,5 +1,6 @@
 :mod:`collection` -- Instruments for manipulating with statistics data
-=======================================
+======================================================================
+
 
 .. module:: collection
    :platform: Unix, Windows, MacOS, POSIX

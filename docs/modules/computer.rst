@@ -1,5 +1,6 @@
 :mod:`computer` -- General monitoring tool
-=======================================
+==========================================
+
 
 .. module:: computer
    :platform: Unix, Windows, MacOS, POSIX

@@ -9,18 +9,51 @@ from pyspectator.monitoring import AbcMonitor
 from pyspectator.collection import LimitedTimeTable
 
 
-class Processor(AbcMonitor):
+class CPU(AbcMonitor):
+    """Monitoring system of the Central Processing Unit.
+
+        :param monitoring_latency: time interval (in seconds) between calls of the CPU scanner.
+        :type monitoring_latency: int, float
+        :param stats_interval: time interval (in seconds) between calls of the statistics collector.
+        :type stats_interval: int, float
+
+        Usage example:
+
+        .. code-block:: python
+
+            >>> from pyspectator.processor import CPU
+            >>> from time import sleep
+            >>> cpu = CPU(monitoring_latency=1)
+            >>> cpu.name
+            'Intel(R) Core(TM)2 Duo CPU     T6570  @ 2.10GHz'
+            >>> cpu.count
+            2
+            >>> with cpu:
+            ...     for _ in range(8):
+            ...        cpu.load, cpu.temperature
+            ...        sleep(1.1)
+            ...
+            (22.6, 55)
+            (6.1, 55)
+            (5.5, 54)
+            (7.1, 54)
+            (5.6, 54)
+            (7.0, 54)
+            (10.2, 54)
+            (6.6, 54)
+
+    """
 
     # region initialization
 
     def __init__(self, monitoring_latency, stats_interval=None):
         super().__init__(monitoring_latency)
-        self.__name = Processor.__get_processor_name()
+        self.__name = CPU.__get_processor_name()
         self.__count = psutil.cpu_count()
         self.__load = None
         self.__temperature = None
         # Init temperature reader
-        self.__temperature_reader = Processor.__get_processor_temperature_reader()
+        self.__temperature_reader = CPU.__get_processor_temperature_reader()
         # Prepare to collect statistics
         if stats_interval is None:
             stats_interval = timedelta(hours=1)
@@ -35,26 +68,62 @@ class Processor(AbcMonitor):
 
     @property
     def name(self):
+        """Full name of the CPU.
+
+        :getter: Return full name of the CPU. Return ``None`` if undetermined.
+        :setter: Not available.
+        :type: string, None
+        """
         return self.__name
 
     @property
     def count(self):
+        """Amount of a CPU cores.
+
+        :getter: Return the number of logical CPUs in the system. Return ``None`` if undetermined.
+        :setter: Not available.
+        :type: int, None
+        """
         return self.__count
 
     @property
     def load(self):
+        """CPU load in percent.
+
+        :getter: Return CPU load in percent. From 0.00 to 100.00 or ``None`` if undetermined.
+        :setter: Not available.
+        :type: float, None
+        """
         return self.__load
 
     @property
     def temperature(self):
+        """Temperature (in Celsius) of the CPU.
+
+        :getter: Return temperature (in Celsius) of the CPU. Return ``None`` if undetermined.
+        :setter: Not available.
+        :type: int, None
+        """
         return self.__temperature
 
     @property
     def load_stats(self):
+        """Statistics about CPU load.
+
+        :getter: Return statistics about CPU load.
+        :setter: Not available.
+        :type: pyspectator.collection.LimitedTimeTable
+        """
         return self.__load_stats
 
     @property
     def temperature_stats(self):
+        """Statistics about CPU temperature.
+
+        :getter: Return statistics about CPU temperature.
+        :setter: Not available.
+        :type: pyspectator.collection.LimitedTimeTable
+        """
         return self.__temperature_stats
 
     # endregion
@@ -99,8 +168,6 @@ class Processor(AbcMonitor):
         elif os_name == 'Linux':
             reader = cls.__linux__processor_temperature_reader()
         return reader
-
-    # endregion
 
     @classmethod
     def __windows_processor_temperature_reader(cls):
@@ -154,5 +221,7 @@ class Processor(AbcMonitor):
         elif os.path.exists('/proc/acpi/thermal_zone/THR1/temperature') is True:
             reader = temperature_reader5
         return reader
+
+    # endregion
 
     pass
