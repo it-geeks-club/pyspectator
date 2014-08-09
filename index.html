@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Pyspectator by uzumaxy</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Pyspectator</h1>
+        <h2>Cross-platform tool for monitoring resources of OS with web-interface.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/uzumaxy/pyspectator/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/uzumaxy/pyspectator/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/uzumaxy/pyspectator" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1></h1>
+
+<h1>
+<a name="summary" class="anchor" href="#summary"><span class="octicon octicon-link"></span></a>Summary</h1>
+
+<p>pyspectator is a Python cross-platform tool for monitoring resources of OS: CPU, memory, disk, network.</p>
+
+<h1></h1>
+
+<h1>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h1>
+
+<ul>
+<li>OS: Linux, Windows, FreeBSD, Solaris</li>
+<li>Python version: 3.X</li>
+<li>Packages: psutil, netifaces, wmi (only on Windows), enum34 (only on python 3.0.0 - 3.4.0)</li>
+</ul><h1></h1>
+
+<h1>
+<a name="how-to-install" class="anchor" href="#how-to-install"><span class="octicon octicon-link"></span></a>How to install</h1>
+
+<p>Run as root user:</p>
+
+<p>.. code-block:: bash</p>
+
+<pre><code>pip install pyspectator
+</code></pre>
+
+<h1></h1>
+
+<h1>
+<a name="example-of-usage" class="anchor" href="#example-of-usage"><span class="octicon octicon-link"></span></a>Example of usage</h1>
+
+<p>There is simple project named <code>pyspectator_tornado &lt;https://github.com/uzumaxy/pyspectator_tornado&gt;</code>_
+developed special for demonstration of pyspectator features.</p>
+
+<p>.. image:: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01_thumb.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01_thumb.png</a>
+    :target: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01.png</a>
+    :alt: General information</p>
+
+<p>.. image:: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02_thumb.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02_thumb.png</a>
+    :target: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02.png</a>
+    :alt: CPU</p>
+
+<p>.. image:: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03_thumb.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03_thumb.png</a>
+    :target: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03.png</a>
+    :alt: Disk devices</p>
+
+<p>.. image:: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04_thumb.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04_thumb.png</a>
+    :target: <a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04.png">http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04.png</a>
+    :alt: Network</p>
+
+<h1></h1>
+
+<h1>
+<a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h1>
+
+<p>You can use pyspectator as module for your own project. Simple example of usage is presented in file "console.py".</p>
+
+<p><em>NOTE: on Windows pyspectator can require elevated privileges.</em></p>
+
+<h2>
+<a name="class-computer" class="anchor" href="#class-computer"><span class="octicon octicon-link"></span></a>Class "Computer"</h2>
+
+<p>.. code-block:: python</p>
+
+<pre><code>&gt;&gt;&gt; from pyspectator.computer import Computer
+&gt;&gt;&gt; computer = Computer()
+&gt;&gt;&gt; computer.os
+'Linux 3.14.4-1-MANJARO'
+&gt;&gt;&gt; computer.python_version
+'CPython ver. 3.4.1'
+&gt;&gt;&gt; computer.uptime
+'1:07:52'
+&gt;&gt;&gt; computer.processor.name
+'Intel(R) Core(TM) i3-3110M CPU @ 2.40GHz'
+</code></pre>
+
+<h2>
+<a name="class-cpu" class="anchor" href="#class-cpu"><span class="octicon octicon-link"></span></a>Class "CPU"</h2>
+
+<p>.. code-block:: python</p>
+
+<pre><code>&gt;&gt;&gt; from pyspectator.processor import CPU
+&gt;&gt;&gt; from time import sleep
+&gt;&gt;&gt; cpu = CPU(monitoring_latency=1)
+&gt;&gt;&gt; with cpu:
+...     for _ in range(8):
+...        cpu.load, cpu.temperature
+...        sleep(1.1)
+...
+(22.6, 55)
+(6.1, 55)
+(5.5, 54)
+(7.1, 54)
+(5.6, 54)
+(7.0, 54)
+(10.2, 54)
+(6.6, 54)
+</code></pre>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
