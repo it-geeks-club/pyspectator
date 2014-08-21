@@ -1,33 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
     <title>Pyspectator by uzumaxy</title>
-  </head>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+  </head>
   <body>
 
-    <header>
-      <div class="container">
+      <header>
         <h1>Pyspectator</h1>
-        <h2>Cross-platform tool for monitoring resources of OS with web-interface.</h2>
+        <p>Cross-platform tool for monitoring resources of OS with web-interface.</p>
+      </header>
 
-        <section id="downloads">
-          <a href="https://github.com/uzumaxy/pyspectator/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/uzumaxy/pyspectator/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/uzumaxy/pyspectator" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+      <div id="banner">
+        <span id="logo"></span>
 
-    <div class="container">
-      <section id="main_content">
+        <a href="https://github.com/uzumaxy/pyspectator" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/uzumaxy/pyspectator/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/uzumaxy/pyspectator/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
         <h1>
 <a name="summary" class="anchor" href="#summary"><span class="octicon octicon-link"></span></a>Summary</h1>
 
@@ -43,23 +54,23 @@
 </ul><h1>
 <a name="how-to-install" class="anchor" href="#how-to-install"><span class="octicon octicon-link"></span></a>How to install</h1>
 
-<p>Run as root user:</p>
-
-<pre><code>pip install pyspectator
-</code></pre>
-
-<h1>
+<ul>
+<li>With PyPi: <code>pip install -U pyspectator</code><br>
+</li>
+<li>Manually: <code>python setup.py install</code>
+</li>
+</ul><h1>
 <a name="example-of-usage" class="anchor" href="#example-of-usage"><span class="octicon octicon-link"></span></a>Example of usage</h1>
 
 <p>There is simple project named <a href="https://github.com/uzumaxy/pyspectator_tornado">pyspectator_tornado</a> developed special for demonstration of pyspectator features.</p>
 
-<p><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01_thumb.png" alt="General information"></p>
+<p><a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01.png"><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01_thumb.png" alt="General information"></a></p>
 
-<p><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02_thumb.png" alt="CPU"></p>
+<p><a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02.png"><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02_thumb.png" alt="CPU"></a></p>
 
-<p><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03_thumb.png" alt="Disk devices"></p>
+<p><a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03.png"><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03_thumb.png" alt="Disk devices"></a></p>
 
-<p><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04_thumb.png" alt="Network"></p>
+<p><a href="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04.png"><img src="http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04_thumb.png" alt="Network"></a></p>
 
 <h1>
 <a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h1>
@@ -104,8 +115,12 @@
 (6.6, 54)
 </code></pre>
       </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/uzumaxy">uzumaxy</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
