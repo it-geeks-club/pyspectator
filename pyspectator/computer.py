@@ -14,16 +14,19 @@ class Computer(AbcMonitor):
     def __init__(self):
         self.datetime_format = '%H:%M:%S %d/%m/%Y'
         self.__raw_boot_time = psutil.boot_time()
-        self.__boot_time = datetime.fromtimestamp(self.raw_boot_time).strftime(self.datetime_format)
+        self.__boot_time = datetime.fromtimestamp(self.raw_boot_time)
+        self.__boot_time = self.__boot_time.strftime(self.datetime_format)
         self.__hostname = platform.node()
         self.__os = Computer.__get_os_name()
         self.__architecture = platform.machine()
-        self.__python_version = '{0} ver. {1}'.format(
+        self.__python_version = '{} ver. {}'.format(
             platform.python_implementation(), platform.python_version()
         )
         self.__processor = CPU(monitoring_latency=1)
         self.__nonvolatile_memory = NonvolatileMemory.instances_connected_devices(monitoring_latency=10)
-        self.__nonvolatile_memory_devices = set([dev_info.device for dev_info in self.__nonvolatile_memory])
+        self.__nonvolatile_memory_devices = set(
+            [dev_info.device for dev_info in self.__nonvolatile_memory]
+        )
         self.__virtual_memory = VirtualMemory(monitoring_latency=1)
         self.__swap_memory = SwapMemory(monitoring_latency=1)
         self.__network_interface = NetworkInterface(monitoring_latency=3)
@@ -91,7 +94,7 @@ class Computer(AbcMonitor):
 
     @classmethod
     def __get_os_name(cls):
-        system = '{0} {1}'.format(platform.system(), platform.release()).strip()
+        system = '{} {}'.format(platform.system(), platform.release()).strip()
         if ('Linux' in system) and ('' not in platform.linux_distribution()):
             system = ' '.join(platform.linux_distribution())
         return system
@@ -103,7 +106,8 @@ class Computer(AbcMonitor):
                 dev.stop_monitoring()
                 self.__nonvolatile_memory_devices.remove(dev.device)
                 self.__nonvolatile_memory.remove(dev)
-        connected_dev = set(NonvolatileMemory.names_connected_devices()) - self.__nonvolatile_memory_devices
+        connected_dev = set(NonvolatileMemory.names_connected_devices()) - \
+            self.__nonvolatile_memory_devices
         for dev_name in connected_dev:
             dev = NonvolatileMemory(monitoring_latency=10, device=dev_name)
             self.__nonvolatile_memory.append(dev)

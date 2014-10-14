@@ -1,5 +1,6 @@
 from collections import MutableMapping, Container
 from datetime import datetime, timedelta
+from pyvalid import accepts
 
 
 class LimitedTimeTable(MutableMapping, Container):
@@ -14,11 +15,9 @@ class LimitedTimeTable(MutableMapping, Container):
         return self.__time_span
 
     @time_span.setter
+    @accepts(object, timedelta)
     def time_span(self, value):
-        if isinstance(value, timedelta):
-            self.__time_span = value
-        else:
-            raise TypeError('Invalid argument\'s value type! Expected for "datetime.timedelta".')
+        self.__time_span = value
 
     @property
     def oldest(self):
@@ -65,16 +64,16 @@ class LimitedTimeTable(MutableMapping, Container):
     def __getitem__(self, item):
         return self.__storage.__getitem__(item)
 
+    @accepts(object, datetime, object)
     def __setitem__(self, key, value):
-        if not isinstance(key, datetime):
-            raise TypeError('Invalid key type! Expected for "datetime.datetime".')
         now = datetime.now()
         if key > now:
             raise ValueError('Can\'t set item from future!')
         oldest = self.oldest
         if (oldest is not None) and (oldest != key):
             longest_time_span = now - oldest
-            if longest_time_span >= self.time_span:  # Item is too old for current timetable
+            # Item is too old for current timetable
+            if longest_time_span >= self.time_span:
                 self.__delitem__(oldest)
         return self.__storage.__setitem__(key, value)
 

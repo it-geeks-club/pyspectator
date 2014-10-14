@@ -12,9 +12,11 @@ from pyspectator.collection import LimitedTimeTable
 class CPU(AbcMonitor):
     """Monitoring system of the Central Processing Unit.
 
-        :param monitoring_latency: time interval (in seconds) between calls of the CPU scanner.
+        :param monitoring_latency: time interval (in seconds) between calls of
+            the CPU scanner.
         :type monitoring_latency: int, float
-        :param stats_interval: time interval (in seconds) between calls of the statistics collector.
+        :param stats_interval: time interval (in seconds) between calls of the
+            statistics collector.
         :type stats_interval: int, float
 
         Usage example:
@@ -80,7 +82,8 @@ class CPU(AbcMonitor):
     def count(self):
         """Amount of a CPU cores.
 
-        :getter: Return the number of logical CPUs in the system. Return ``None`` if undetermined.
+        :getter: Return the number of logical CPUs in the system. Return
+            ``None`` if undetermined.
         :setter: Not available.
         :type: int, None
         """
@@ -90,7 +93,8 @@ class CPU(AbcMonitor):
     def load(self):
         """CPU load in percent.
 
-        :getter: Return CPU load in percent. From 0.00 to 100.00 or ``None`` if undetermined.
+        :getter: Return CPU load in percent. From 0.00 to 100.00 or ``None``
+            if undetermined.
         :setter: Not available.
         :type: float, None
         """
@@ -100,7 +104,8 @@ class CPU(AbcMonitor):
     def temperature(self):
         """Temperature (in Celsius) of the CPU.
 
-        :getter: Return temperature (in Celsius) of the CPU. Return ``None`` if undetermined.
+        :getter: Return temperature (in Celsius) of the CPU. Return ``None``
+            if undetermined.
         :setter: Not available.
         :type: int, None
         """
@@ -149,12 +154,14 @@ class CPU(AbcMonitor):
             command = 'sysctl -n machdep.cpu.brand_string'
             cpu_name = subprocess.check_output(command).strip()
         elif os_name == 'Linux':
-            all_info = subprocess.check_output('cat /proc/cpuinfo', shell=True).strip()
-            for line in all_info.split(os.linesep.encode()):
+            all_info = subprocess.check_output('cat /proc/cpuinfo', shell=True)
+            all_info = all_info.strip().split(os.linesep.encode())
+            for line in all_info:
                 line = line.decode()
-                if 'model name' in line:
-                    cpu_name = re.sub('.*model name.*:', str(), line, 1).strip()
-                    break
+                if 'model name' not in line:
+                    continue
+                cpu_name = re.sub('.*model name.*:', str(), line, 1).strip()
+                break
         return cpu_name
 
     @classmethod
@@ -164,7 +171,8 @@ class CPU(AbcMonitor):
         if os_name == 'Windows':
             reader = cls.__windows_processor_temperature_reader()
         elif os_name == 'Darwin':
-            pass  # TODO: try to use C lib  - https://github.com/lavoiesl/osx-cpu-temp
+            # TODO: try to use C lib - https://github.com/lavoiesl/osx-cpu-temp
+            pass
         elif os_name == 'Linux':
             reader = cls.__linux__processor_temperature_reader()
         return reader
@@ -173,53 +181,59 @@ class CPU(AbcMonitor):
     def __windows_processor_temperature_reader(cls):
         import wmi
         import pythoncom
+
         def temperature_reader():
             pythoncom.CoInitialize()
             w = wmi.WMI(namespace='root\\wmi')
-            temperature = w.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature
-            temperature = int(temperature / 10.0 - 273.15)
+            temperature = w.MSAcpi_ThermalZoneTemperature()[0]
+            temperature = int(temperature.CurrentTemperature / 10.0 - 273.15)
             return temperature
         return temperature_reader
 
     @classmethod
     def __linux__processor_temperature_reader(cls):
-        reader = None
 
-        def temperature_reader1():
-            temperature = open('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp').read().strip()
+        def temperature_reader1(file):
+            temperature = open(file).read().strip()
             temperature = int(temperature) // 1000
             return temperature
 
-        def temperature_reader2():
-            temperature = open('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp').read().strip()
+        def temperature_reader2(file):
+            temperature = open(file).read().strip()
             temperature = int(temperature) // 1000
             return temperature
 
-        def temperature_reader3():
-            temperature = open('/proc/acpi/thermal_zone/THM0/temperature').read().strip()
+        def temperature_reader3(file):
+            temperature = open(file).read().strip()
             temperature = temperature.lstrip('temperature :').rstrip(' C')
             return int(temperature)
 
-        def temperature_reader4():
-            temperature = open('/proc/acpi/thermal_zone/THRM/temperature').read().strip()
+        def temperature_reader4(file):
+            temperature = open(file).read().strip()
             temperature = temperature.lstrip('temperature :').rstrip(' C')
             return int(temperature)
 
-        def temperature_reader5():
-            temperature = open('/proc/acpi/thermal_zone/THR1/temperature').read().strip()
+        def temperature_reader5(file):
+            temperature = open(file).read().strip()
             temperature = temperature.lstrip('temperature :').rstrip(' C')
             return int(temperature)
 
-        if os.path.exists('/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp') is True:
-            reader = temperature_reader1
-        elif os.path.exists('/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp') is True:
-            reader = temperature_reader2
-        elif os.path.exists('/proc/acpi/thermal_zone/THM0/temperature') is True:
-            reader = temperature_reader3
-        elif os.path.exists('/proc/acpi/thermal_zone/THRM/temperature') is True:
-            reader = temperature_reader4
-        elif os.path.exists('/proc/acpi/thermal_zone/THR1/temperature') is True:
-            reader = temperature_reader5
+        readers = {
+            '/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp':
+            temperature_reader1,
+            '/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp':
+            temperature_reader2,
+            '/proc/acpi/thermal_zone/THM0/temperature': temperature_reader3,
+            '/proc/acpi/thermal_zone/THRM/temperature': temperature_reader4,
+            '/proc/acpi/thermal_zone/THR1/temperature': temperature_reader5
+        }
+
+        for file, reader in readers.items():
+            if os.path.exists(file):
+                reader = lambda: reader(file)
+                break
+        else:
+            reader = None
         return reader
 
     # endregion

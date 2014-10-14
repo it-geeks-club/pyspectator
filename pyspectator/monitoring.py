@@ -7,7 +7,8 @@ class AbcMonitor(metaclass=ABCMeta):
 
     Attributes:
         monitoring (bool): indicator activity of monitor.
-        monitoring_latency (int, float): frequency of execution monitor's action.
+        monitoring_latency (int, float): frequency of execution monitor's
+            action.
     """
 
     # region initialization

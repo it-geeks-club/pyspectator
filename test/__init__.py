@@ -1,4 +1,4 @@
 """
-Testing functional of current project.
-Used "py.test" as common tool for testing.
+Unit tests for current project.
+Used "py.test" as a common tool for testing.
 """

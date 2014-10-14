@@ -10,7 +10,8 @@ class NetworkInterface(AbcMonitor):
 
     # region initialization
 
-    def __init__(self,  monitoring_latency, stats_interval=None, ip_address=None):
+    def __init__(self,  monitoring_latency, stats_interval=None,
+                 ip_address=None):
         super().__init__(monitoring_latency)
         self.__name = None
         self.__hardware_address = None
@@ -31,12 +32,15 @@ class NetworkInterface(AbcMonitor):
                     if af_inet['addr'] != self.__ip_address:
                         continue
                     af_link = addresses[nif.AF_LINK][0]
-                    self.__name = NetworkInterface.__check_interface_name(interface)
+                    self.__name = NetworkInterface.__check_interface_name(
+                        interface
+                    )
                     self.__hardware_address = af_link['addr']
                     self.__broadcast_address = af_inet['broadcast']
                     self.__subnet_mask = af_inet['netmask']
                     break
-                except (IndexError, KeyError):  # ignore interfaces that don't have MAC or IP
+                except (IndexError, KeyError):
+                    # ignore interfaces, which don't have MAC or IP
                     continue
         # Get gateway address
         if self.name is not None:

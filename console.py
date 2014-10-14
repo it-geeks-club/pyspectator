@@ -32,7 +32,7 @@ class Format(object):
         formatted_value = ''
         if isinstance(value, (int, float)):
             value, unit = UnitByte.auto_convert(value)
-            value = '{0:.2f}'.format(value)
+            value = '{:.2f}'.format(value)
             unit = UnitByte.get_name_reduction(unit)
             formatted_value = value + unit
         return formatted_value
@@ -53,7 +53,9 @@ def main(computer):
         clear()
         # Display general information about computer
         print('OS: ' + str(computer.os))
-        print('Boot time: {0}; Uptime: {1}'.format(computer.boot_time, computer.uptime))
+        print('Boot time: {}; Uptime: {}'.format(
+            computer.boot_time, computer.uptime
+        ))
         print('')
         # Display CPU info
         print('CPU name: ' + str(computer.processor.name))
@@ -61,34 +63,35 @@ def main(computer):
         print('CPU load: ' + Format.percent(computer.processor.load))
         cpu_temperature = 'unknown'
         if computer.processor.temperature is not None:
-            cpu_temperature = Format.temperature(computer.processor.temperature)
+            cpu_temperature = Format.temperature(
+                computer.processor.temperature
+            )
         print('CPU temperature: ' + cpu_temperature)
         print('')
         # Display network info
         print('Hostname: ' + str(computer.hostname))
         print('Network interface: ' + str(computer.network_interface.name))
-        print('MAC address: ' + str(computer.network_interface.hardware_address))
-        print('IP: {0}; Mask: {2}; Gateway: {3}'.format(
+        print('MAC: ' + str(computer.network_interface.hardware_address))
+        print('IP: {}; Mask: {}; Gateway: {}'.format(
             computer.network_interface.ip_address,
-            computer.network_interface.broadcast_address,
             computer.network_interface.subnet_mask,
             computer.network_interface.default_route
         ))
-        print('Sent data: {0}; Received data: {1}'.format(
+        print('Sent data: {}; Received data: {}'.format(
             Format.byte_value(computer.network_interface.bytes_sent),
             Format.byte_value(computer.network_interface.bytes_recv)
         ))
         print('')
         # Display virtual memory info
-        print('Virtual memory: use {0} from {1}, {2}'.format(
+        print('Virtual memory: use {} from {}, {}'.format(
             Format.byte_value(computer.virtual_memory.available),
             Format.byte_value(computer.virtual_memory.total),
             Format.percent(computer.virtual_memory.used_percent)
         ))
         print('')
         # Display nonvolatile memory info
-        output_format1 = '{0:_^16}{1:_^16}{2:_^16}{3:_^16}{4:_^16}'
-        output_format2 = '{0: ^16}{1: ^16}{2: ^16}{3: ^16}{4: ^16}'
+        output_format1 = '{:_^16}{:_^16}{:_^16}{:_^16}{:_^16}'
+        output_format2 = '{: ^16}{: ^16}{: ^16}{: ^16}{: ^16}'
         print(output_format1.format('Device', 'Total', 'Use', 'Type', 'Mount'))
         for dev in computer.nonvolatile_memory:
             output_text = output_format2.format(

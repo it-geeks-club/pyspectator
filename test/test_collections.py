@@ -2,13 +2,14 @@ import pytest
 from pyspectator.collection import LimitedTimeTable
 from datetime import timedelta, datetime
 from time import sleep
+from pyvalid import ArgumentValidationError
 
 
 def test_limited_time_table():
     time_span = timedelta(seconds=2)
     limited_time_table = LimitedTimeTable(time_span)
     assert len(limited_time_table) == 0
-    with pytest.raises(TypeError):
+    with pytest.raises(ArgumentValidationError):
         limited_time_table[int()] = 'record #1'
     first_record_dtime = datetime.now()
     limited_time_table[first_record_dtime] = 'record #1'
