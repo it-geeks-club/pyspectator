@@ -32,20 +32,20 @@ Example of usage
 There is simple project named `pyspectator_tornado <https://github.com/uzumaxy/pyspectator_tornado>`_
 developed special for demonstration of pyspectator features.
 
-.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01_thumb.png
-    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_01.png
+.. image:: http://i.imgur.com/yUjNlyQ.png
+    :target: http://i.imgur.com/LFMmfHu.png
     :alt: General information
 
-.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02_thumb.png
-    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_02.png
+.. image:: http://i.imgur.com/omNJhno.png
+    :target: http://i.imgur.com/r0RuV2m.png
     :alt: CPU
 
-.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03_thumb.png
-    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_03.png
+.. image:: http://i.imgur.com/qc3NwBa.png
+    :target: http://i.imgur.com/zA7mteS.png
     :alt: Disk devices
 
-.. image:: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04_thumb.png
-    :target: http://uzumaxy.tk/static/img/projects/pyspectator_tornado_04.png
+.. image:: http://i.imgur.com/Dugsnr6.png
+    :target: http://i.imgur.com/rDadDzn.png
     :alt: Network
 
 
