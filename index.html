@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Pyspectator by uzumaxy</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
@@ -40,12 +40,12 @@
       </nav>
       <section>
         <h1>
-<a id="summary" class="anchor" href="#summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary</h1>
+<a id="summary" class="anchor" href="#summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h1>
 
 <p>pyspectator is a Python cross-platform tool for monitoring resources of OS: CPU, memory, disk, network.</p>
 
 <h1>
-<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h1>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h1>
 
 <ul>
 <li>OS: Linux, Windows, FreeBSD, Solaris</li>
@@ -54,7 +54,7 @@
 </ul>
 
 <h1>
-<a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to install</h1>
+<a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to install</h1>
 
 <ul>
 <li>With PyPi: <code>pip install -U pyspectator</code><br>
@@ -64,7 +64,7 @@
 </ul>
 
 <h1>
-<a id="example-of-usage" class="anchor" href="#example-of-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example of usage</h1>
+<a id="example-of-usage" class="anchor" href="#example-of-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example of usage</h1>
 
 <p>There is simple project named <a href="https://github.com/uzumaxy/pyspectator_tornado">pyspectator_tornado</a> developed special for demonstration of pyspectator features.</p>
 
@@ -77,14 +77,14 @@
 <p><a href="http://i.imgur.com/rDadDzn.png"><img src="http://i.imgur.com/Dugsnr6.png" alt="Network"></a></p>
 
 <h1>
-<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h1>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use</h1>
 
 <p>You can use pyspectator as module for your own project. Simple example of usage is presented in file <code>console.py</code>.</p>
 
 <p><em>NOTE: on Windows pyspectator can require elevated privileges.</em></p>
 
 <h2>
-<a id="class-computer" class="anchor" href="#class-computer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Class "Computer"</h2>
+<a id="class-computer" class="anchor" href="#class-computer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Class "Computer"</h2>
 
 <pre><code>&gt;&gt;&gt; from pyspectator.computer import Computer
 &gt;&gt;&gt; computer = Computer()
@@ -99,11 +99,11 @@
 </code></pre>
 
 <h2>
-<a id="class-cpu" class="anchor" href="#class-cpu" aria-hidden="true"><span class="octicon octicon-link"></span></a>Class "CPU"</h2>
+<a id="class-cpu" class="anchor" href="#class-cpu" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Class "CPU"</h2>
 
-<pre><code>&gt;&gt;&gt; from pyspectator.processor import CPU
+<pre><code>&gt;&gt;&gt; from pyspectator.processor import Cpu
 &gt;&gt;&gt; from time import sleep
-&gt;&gt;&gt; cpu = CPU(monitoring_latency=1)
+&gt;&gt;&gt; cpu = Cpu(monitoring_latency=1)
 &gt;&gt;&gt; with cpu:
 ...     for _ in range(8):
 ...        cpu.load, cpu.temperature
