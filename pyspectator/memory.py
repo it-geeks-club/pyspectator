@@ -195,3 +195,12 @@ class NonvolatileMemory(AbsMemory):
 
 class DeviceNotFoundException(Exception):
     pass
+
+
+__all__ = [
+    'AbsMemory',
+    'VirtualMemory',
+    'SwapMemory',
+    'NonvolatileMemory',
+    'DeviceNotFoundException'
+]

@@ -81,9 +81,9 @@ Class "CPU"
 
 .. code-block:: python
 
-    >>> from pyspectator.processor import CPU
+    >>> from pyspectator.processor import Cpu
     >>> from time import sleep
-    >>> cpu = CPU(monitoring_latency=1)
+    >>> cpu = Cpu(monitoring_latency=1)
     >>> with cpu:
     ...     for _ in range(8):
     ...        cpu.load, cpu.temperature
@@ -97,4 +97,3 @@ Class "CPU"
     (7.0, 54)
     (10.2, 54)
     (6.6, 54)
-

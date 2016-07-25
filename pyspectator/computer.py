@@ -3,7 +3,7 @@ import platform
 from datetime import datetime
 from pyspectator.monitoring import AbcMonitor
 from pyspectator.memory import NonvolatileMemory, VirtualMemory, SwapMemory
-from pyspectator.processor import CPU
+from pyspectator.processor import Cpu
 from pyspectator.network import NetworkInterface
 
 
@@ -22,7 +22,7 @@ class Computer(AbcMonitor):
         self.__python_version = '{} ver. {}'.format(
             platform.python_implementation(), platform.python_version()
         )
-        self.__processor = CPU(monitoring_latency=1)
+        self.__processor = Cpu(monitoring_latency=1)
         self.__nonvolatile_memory = NonvolatileMemory.instances_connected_devices(monitoring_latency=10)
         self.__nonvolatile_memory_devices = set(
             [dev_info.device for dev_info in self.__nonvolatile_memory]
@@ -140,3 +140,6 @@ class Computer(AbcMonitor):
     # endregion
 
     pass
+
+
+__all__ = ['Computer']

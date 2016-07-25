@@ -45,17 +45,17 @@ def main():
     # Describe installer
     settings = {
         'name': 'pyspectator',
-        'version': '1.0.8',
+        'version': '1.1.0',
         'author': 'Maxim Grischuk, Vova Sirenko',
         'author_email': 'uzumaxy@gmail.com',
         'maintainer': 'Maxim Grischuk',
         'maintainer_email': 'uzumaxy@gmail.com',
         'packages': ['pyspectator'],
-        'url': 'https://github.com/opium999/pyspectator',
-        'download_url': 'https://github.com/opium999/pyspectator/releases',
+        'url': 'https://github.com/uzumaxy/pyspectator',
+        'download_url': 'https://github.com/uzumaxy/pyspectator/releases',
         'license': 'BSD',
-        'description': 'pyspectator is a cross-platform tool for retrieving '
-                       'full information about computer.',
+        'description': 'pyspectator is a Python cross-platform tool for '
+                       'monitoring OS resources.',
         'long_description': open('README.rst').read(),
         'install_requires': requires,
         'keywords': [

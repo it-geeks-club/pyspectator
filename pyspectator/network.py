@@ -140,3 +140,6 @@ class NetworkInterface(AbcMonitor):
     # endregion
 
     pass
+
+
+__all__ = ['NetworkInterface']

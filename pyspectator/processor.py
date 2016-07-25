@@ -7,9 +7,11 @@ from collections import Callable
 from datetime import datetime, timedelta
 from pyspectator.monitoring import AbcMonitor
 from pyspectator.collection import LimitedTimeTable
+from pyspectator.temperature_reader import LinuxCpuTemperatureReader
+from pyspectator.temperature_reader import WindowsCpuTemperatureReader
 
 
-class CPU(AbcMonitor):
+class Cpu(AbcMonitor):
     """Monitoring system of the Central Processing Unit.
 
         :param monitoring_latency: time interval (in seconds) between calls of
@@ -23,9 +25,9 @@ class CPU(AbcMonitor):
 
         .. code-block:: python
 
-            >>> from pyspectator.processor import CPU
+            >>> from pyspectator.processor import Cpu
             >>> from time import sleep
-            >>> cpu = CPU(monitoring_latency=1)
+            >>> cpu = Cpu(monitoring_latency=1)
             >>> cpu.name
             'Intel(R) Core(TM)2 Duo CPU     T6570  @ 2.10GHz'
             >>> cpu.count
@@ -50,12 +52,12 @@ class CPU(AbcMonitor):
 
     def __init__(self, monitoring_latency, stats_interval=None):
         super().__init__(monitoring_latency)
-        self.__name = CPU.__get_processor_name()
+        self.__name = Cpu.__get_processor_name()
         self.__count = psutil.cpu_count()
         self.__load = None
         self.__temperature = None
         # Init temperature reader
-        self.__temperature_reader = CPU.__get_processor_temperature_reader()
+        self.__temperature_reader = Cpu.__get_processor_temperature_reader()
         # Prepare to collect statistics
         if stats_interval is None:
             stats_interval = timedelta(hours=1)
@@ -169,73 +171,17 @@ class CPU(AbcMonitor):
         reader = None
         os_name = platform.system()
         if os_name == 'Windows':
-            reader = cls.__windows_processor_temperature_reader()
+            reader = WindowsCpuTemperatureReader.get_reader()
         elif os_name == 'Darwin':
             # TODO: try to use C lib - https://github.com/lavoiesl/osx-cpu-temp
             pass
         elif os_name == 'Linux':
-            reader = cls.__linux__processor_temperature_reader()
-        return reader
-
-    @classmethod
-    def __windows_processor_temperature_reader(cls):
-        import wmi
-        import pythoncom
-
-        def temperature_reader():
-            pythoncom.CoInitialize()
-            w = wmi.WMI(namespace='root\\wmi')
-            temperature = w.MSAcpi_ThermalZoneTemperature()[0]
-            temperature = int(temperature.CurrentTemperature / 10.0 - 273.15)
-            return temperature
-        return temperature_reader
-
-    @classmethod
-    def __linux__processor_temperature_reader(cls):
-
-        def temperature_reader1(file):
-            temperature = open(file).read().strip()
-            temperature = int(temperature) // 1000
-            return temperature
-
-        def temperature_reader2(file):
-            temperature = open(file).read().strip()
-            temperature = int(temperature) // 1000
-            return temperature
-
-        def temperature_reader3(file):
-            temperature = open(file).read().strip()
-            temperature = temperature.lstrip('temperature :').rstrip(' C')
-            return int(temperature)
-
-        def temperature_reader4(file):
-            temperature = open(file).read().strip()
-            temperature = temperature.lstrip('temperature :').rstrip(' C')
-            return int(temperature)
-
-        def temperature_reader5(file):
-            temperature = open(file).read().strip()
-            temperature = temperature.lstrip('temperature :').rstrip(' C')
-            return int(temperature)
-
-        readers = {
-            '/sys/devices/LNXSYSTM:00/LNXTHERM:00/LNXTHERM:01/thermal_zone/temp':
-            temperature_reader1,
-            '/sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp':
-            temperature_reader2,
-            '/proc/acpi/thermal_zone/THM0/temperature': temperature_reader3,
-            '/proc/acpi/thermal_zone/THRM/temperature': temperature_reader4,
-            '/proc/acpi/thermal_zone/THR1/temperature': temperature_reader5
-        }
-
-        for file, reader in readers.items():
-            if os.path.exists(file):
-                reader = lambda: reader(file)
-                break
-        else:
-            reader = None
+            reader = LinuxCpuTemperatureReader.get_reader()
         return reader
 
     # endregion
 
     pass
+
+
+__all__ = ['Cpu']
