@@ -1,3 +1,6 @@
+.. image:: https://badge.waffle.io/uzumaxy/pyspectator.png?label=ready&title=Ready 
+ :target: https://waffle.io/uzumaxy/pyspectator
+ :alt: 'Stories in Ready'
 =======
 Summary
 =======
