@@ -45,10 +45,7 @@ class UnitByte(IntEnum):
             UnitByte.zettabyte: 'ZB',
             UnitByte.yottabyte: 'YB'
         }
-        reduction = None
-        if unitbyte in UnitByte:
-            reduction = reductions_en[unitbyte]
-        return reduction
+        return reductions_en.get(unitbyte)
 
 
 __all__ = ['UnitByte']
