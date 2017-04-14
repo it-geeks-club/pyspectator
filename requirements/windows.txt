@@ -1,0 +1,2 @@
+-r base.txt
+wmi >= 1.4.9

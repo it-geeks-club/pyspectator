@@ -32,31 +32,31 @@ def main():
         )
         exit(1)
     # Generate requires
-    requires = [
-        'psutil>=2.1.1',
-        'netifaces>=0.10.4',
-        'pyvalid>=0.9',
-        'pytest>=2.6.2'
-    ]
-    if sys.version_info < (3, 4, 1):
-        requires.append("enum34 >= 1.0")
     if platform.system() == 'Windows':
-        requires.append('wmi >= 1.4.9')
+        requirements_file = 'windows.txt'
+    else:
+        requirements_file = 'base.txt'
+    requirements_file = os.path.join('requirements', requirements_file)
+    with open(requirements_file) as fd:
+        requires = fd.read().splitlines()
+    # Get package description
+    with open('README.rst') as fd:
+        long_description = fd.read()
     # Describe installer
     settings = {
         'name': 'pyspectator',
-        'version': '1.1.0',
-        'author': 'Maxim Grischuk, Vova Sirenko',
+        'version': '1.1.1',
+        'author': 'Maxim Grischuk',
         'author_email': 'uzumaxy@gmail.com',
         'maintainer': 'Maxim Grischuk',
         'maintainer_email': 'uzumaxy@gmail.com',
         'packages': ['pyspectator'],
-        'url': 'https://github.com/uzumaxy/pyspectator',
-        'download_url': 'https://github.com/uzumaxy/pyspectator/releases',
+        'url': 'https://github.com/it-geeks-club/pyspectator',
+        'download_url': 'https://github.com/it-geeks-club/pyspectator/releases',
         'license': 'BSD',
         'description': 'pyspectator is a Python cross-platform tool for '
                        'monitoring OS resources.',
-        'long_description': open('README.rst').read(),
+        'long_description': long_description,
         'install_requires': requires,
         'keywords': [
             'pyspectator', 'spectator',
@@ -105,6 +105,7 @@ def main():
             'Programming Language :: Python :: 3.2',
             'Programming Language :: Python :: 3.3',
             'Programming Language :: Python :: 3.4',
+            'Programming Language :: Python :: 3.5',
             'Programming Language :: Python :: Implementation :: CPython',
             'Programming Language :: Python',
             'Topic :: Software Development :: Libraries :: Python Modules',
