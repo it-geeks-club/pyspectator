@@ -46,7 +46,7 @@ class LinuxCpuTemperatureReader():
 class WindowsCpuTemperatureReader():
 
     @classmethod
-    def get_reader():
+    def get_reader(cls):
         import wmi
         import pythoncom
 
