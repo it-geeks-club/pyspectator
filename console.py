@@ -5,7 +5,7 @@ from time import sleep
 from pyspectator.convert import UnitByte
 
 
-clear_command = "cls" if platform.system() == "Windows" else "clear"
+clear_command = 'cls' if platform.system() == 'Windows' else 'clear'
 
 
 def clear():
