@@ -153,8 +153,10 @@ class Cpu(AbcMonitor):
             cpu_name = platform.processor()
         elif os_name == 'Darwin':
             os.environ['PATH'] = os.environ['PATH'] + os.pathsep + '/usr/sbin'
-            command = 'sysctl -n machdep.cpu.brand_string'
-            cpu_name = subprocess.check_output(command).strip()
+            command = ('sysctl', '-n', 'machdep.cpu.brand_string')
+            output = subprocess.check_output(command)
+            if output:
+                cpu_name = output.decode().strip()
         elif os_name == 'Linux':
             all_info = subprocess.check_output('cat /proc/cpuinfo', shell=True)
             all_info = all_info.strip().split(os.linesep.encode())
