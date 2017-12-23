@@ -142,8 +142,11 @@ class Cpu(AbcMonitor):
         self.__load = psutil.cpu_percent()
         self.__load_stats[now] = self.__load
         if isinstance(self.__temperature_reader, Callable):
-            self.__temperature = self.__temperature_reader()
-            self.__temperature_stats[now] = self.__temperature
+            try:
+                self.__temperature = self.__temperature_reader()
+                self.__temperature_stats[now] = self.__temperature
+            except:
+                print('Can\'t read CPU temperature')
 
     @classmethod
     def __get_processor_name(cls):
