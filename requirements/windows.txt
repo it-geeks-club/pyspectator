@@ -1,2 +1,6 @@
--r base.txt
-wmi >= 1.4.9
+psutil>=2.1.1
+netifaces>=0.10.4
+pyvalid>=0.9
+pytest>=2.6.2
+enum34>=1.0
+wmi>=1.4.9
