@@ -1,3 +1,9 @@
+"""
+Installation script
+
+Version: 1.2.1
+"""
+
 import sys
 import platform
 import os
@@ -6,7 +12,16 @@ from setuptools.command.test import test as TestCommand
 
 
 class PyTest(TestCommand):
+    """
+    Test-runner
+    """
+
     user_options = [('pytest-args=', 'a', 'Arguments to pass to py.test')]
+
+    def __init__(self, *args, **kwargs):
+        super(PyTest, self).__init__(*args, **kwargs)
+        self.pytest_args = None
+        self.test_suite = None
 
     def initialize_options(self):
         TestCommand.initialize_options(self)
@@ -25,6 +40,9 @@ class PyTest(TestCommand):
 
 
 def main():
+    """
+    App entry point
+    """
     # Check python version
     if sys.version_info < (3, 0, 0):
         sys.stderr.write(
@@ -37,11 +55,11 @@ def main():
     else:
         requirements_file = 'base.txt'
     requirements_file = os.path.join('requirements', requirements_file)
-    with open(requirements_file) as fd:
-        requires = fd.read().splitlines()
+    with open(requirements_file) as requirements_reader:
+        requires = requirements_reader.read().splitlines()
     # Get package description
-    with open('README.rst') as fd:
-        long_description = fd.read()
+    with open('README.rst') as readme_reader:
+        long_description = readme_reader.read()
     # Describe installer
     settings = {
         'name': 'pyspectator',
