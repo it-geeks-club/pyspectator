@@ -5,11 +5,11 @@ from time import sleep
 from pyspectator.convert import UnitByte
 
 
-clear_command = 'cls' if platform.system() == 'Windows' else 'clear'
+CLEAR_CMD = 'cls' if platform.system() == 'Windows' else 'clear'
 
 
 def clear():
-    subprocess.call(clear_command, shell=True)
+    subprocess.call(CLEAR_CMD, shell=True)
 
 
 def print_hr(space_before=False, space_after=False):
@@ -110,8 +110,8 @@ def main(computer):
 if __name__ == '__main__':
     # Initialize computer instance
     from pyspectator.computer import Computer
-    curr_computer = Computer()
+    COMPUTER = Computer()
     # Start monitoring system
-    with curr_computer:
+    with COMPUTER:
         # Start console interface
-        main(curr_computer)
+        main(COMPUTER)

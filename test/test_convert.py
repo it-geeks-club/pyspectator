@@ -1,4 +1,3 @@
-import pytest
 from pyspectator.convert import UnitByte
 
 

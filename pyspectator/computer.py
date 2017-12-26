@@ -1,6 +1,6 @@
-import psutil
 import platform
 from datetime import datetime
+import psutil
 from pyspectator.monitoring import AbcMonitor
 from pyspectator.memory import NonvolatileMemory, VirtualMemory, SwapMemory
 from pyspectator.processor import Cpu
@@ -8,8 +8,6 @@ from pyspectator.network import NetworkInterface
 
 
 class Computer(AbcMonitor):
-
-    # region initialization
 
     def __init__(self):
         self.datetime_format = '%H:%M:%S %d/%m/%Y'
@@ -31,10 +29,6 @@ class Computer(AbcMonitor):
         self.__swap_memory = SwapMemory(monitoring_latency=1)
         self.__network_interface = NetworkInterface(monitoring_latency=3)
         super().__init__(monitoring_latency=3)
-
-    # endregion
-
-    # region properties
 
     @property
     def processor(self):
@@ -88,10 +82,6 @@ class Computer(AbcMonitor):
     def network_interface(self):
         return self.__network_interface
 
-    # endregion
-
-    # region methods
-
     @classmethod
     def __get_os_name(cls):
         system = '{} {}'.format(platform.system(), platform.release()).strip()
@@ -136,10 +126,6 @@ class Computer(AbcMonitor):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.stop_monitoring()
-
-    # endregion
-
-    pass
 
 
 __all__ = ['Computer']

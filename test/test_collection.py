@@ -1,7 +1,7 @@
-import pytest
-from pyspectator.collection import LimitedTimeTable
 from datetime import timedelta, datetime
 from time import sleep
+import pytest
+from pyspectator.collection import LimitedTimeTable
 from pyvalid import ArgumentValidationError
 
 

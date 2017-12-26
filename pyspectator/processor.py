@@ -1,10 +1,10 @@
-import psutil
 import platform
 import os
 import subprocess
 import re
 from collections import Callable
 from datetime import datetime, timedelta
+import psutil
 from pyspectator.monitoring import AbcMonitor
 from pyspectator.collection import LimitedTimeTable
 from pyspectator.temperature_reader import LinuxCpuTemperatureReader
@@ -45,10 +45,7 @@ class Cpu(AbcMonitor):
             (7.0, 54)
             (10.2, 54)
             (6.6, 54)
-
     """
-
-    # region initialization
 
     def __init__(self, monitoring_latency, stats_interval=None):
         super().__init__(monitoring_latency)
@@ -65,10 +62,6 @@ class Cpu(AbcMonitor):
         self.__temperature_stats = LimitedTimeTable(stats_interval)
         # Read updating value at first time
         self._monitoring_action()
-
-    # endregion
-
-    # region properties
 
     @property
     def name(self):
@@ -133,10 +126,6 @@ class Cpu(AbcMonitor):
         """
         return self.__temperature_stats
 
-    # endregion
-
-    # region methods
-
     def _monitoring_action(self):
         now = datetime.now()
         self.__load = psutil.cpu_percent()
@@ -183,10 +172,6 @@ class Cpu(AbcMonitor):
         elif os_name == 'Linux':
             reader = LinuxCpuTemperatureReader.get_reader()
         return reader
-
-    # endregion
-
-    pass
 
 
 __all__ = ['Cpu']

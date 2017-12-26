@@ -1,16 +1,14 @@
 import socket
+from datetime import timedelta, datetime
 import psutil
 import netifaces as nif
-from datetime import timedelta, datetime
 from pyspectator.monitoring import AbcMonitor
 from pyspectator.collection import LimitedTimeTable
 
 
 class NetworkInterface(AbcMonitor):
 
-    # region initialization
-
-    def __init__(self,  monitoring_latency, stats_interval=None,
+    def __init__(self, monitoring_latency, stats_interval=None,
                  ip_address=None):
         super().__init__(monitoring_latency)
         self.__name = None
@@ -55,11 +53,6 @@ class NetworkInterface(AbcMonitor):
         self.__bytes_recv_stats = LimitedTimeTable(stats_interval)
         # Read updating values at first time
         self._monitoring_action()
-        pass
-
-    # endregion
-
-    # region properties
 
     @property
     def name(self):
@@ -101,10 +94,6 @@ class NetworkInterface(AbcMonitor):
     def bytes_recv_stats(self):
         return self.__bytes_recv_stats
 
-    # endregion
-
-    # region methods
-
     @classmethod
     def __check_interface_name(cls, name):
         net_io = psutil.net_io_counters(pernic=True)
@@ -136,10 +125,6 @@ class NetworkInterface(AbcMonitor):
             self.__bytes_recv_stats[now] = self.bytes_sent
             self.__bytes_recv = net_io.bytes_recv
             self.__bytes_recv_stats[now] = self.bytes_recv
-
-    # endregion
-
-    pass
 
 
 __all__ = ['NetworkInterface']

@@ -1,13 +1,11 @@
-import psutil
 from abc import ABCMeta, abstractmethod
 from datetime import timedelta, datetime
+import psutil
 from pyspectator.monitoring import AbcMonitor
 from pyspectator.collection import LimitedTimeTable
 
 
 class AbsMemory(AbcMonitor, metaclass=ABCMeta):
-
-    # region initialization
 
     def __init__(self, monitoring_latency, stats_interval=None):
         # Prepare to collect statistic
@@ -29,10 +27,6 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
             self.__used_percent_stats.clear()
         # Init base class
         super().__init__(monitoring_latency)
-
-    # endregion
-
-    # region properties
 
     @property
     def total(self):
@@ -65,10 +59,6 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
     def used_percent_stats(self):
         return self.__used_percent_stats
 
-    # endregion
-
-    # region methods
-
     def _monitoring_action(self):
         try:
             self.__available = self._get_available_memory()
@@ -88,10 +78,6 @@ class AbsMemory(AbcMonitor, metaclass=ABCMeta):
     @abstractmethod
     def _get_available_memory(self):
         raise NotImplementedError('Method not implemented by derived class!')
-
-    # endregion
-
-    pass
 
 
 class VirtualMemory(AbsMemory):
@@ -120,8 +106,6 @@ class SwapMemory(AbsMemory):
 
 class NonvolatileMemory(AbsMemory):
 
-    # region initialization
-
     def __init__(self, monitoring_latency, device):
         dev_info = None
         for current_dev_info in psutil.disk_partitions():
@@ -138,10 +122,6 @@ class NonvolatileMemory(AbsMemory):
         self.__fstype = dev_info.fstype
         super().__init__(monitoring_latency)
 
-    # endregion
-
-    # region properties
-
     @property
     def device(self):
         return self.__device
@@ -157,10 +137,6 @@ class NonvolatileMemory(AbsMemory):
     @property
     def is_alive(self):
         return self.__is_alive
-
-    # endregion
-
-    # region methods
 
     def _get_available_memory(self):
         return psutil.disk_usage(self.mountpoint).free
@@ -187,10 +163,6 @@ class NonvolatileMemory(AbsMemory):
     @staticmethod
     def names_connected_devices():
         return [dev_info.device for dev_info in psutil.disk_partitions()]
-
-    # endregion
-
-    pass
 
 
 class DeviceNotFoundException(Exception):

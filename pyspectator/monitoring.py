@@ -11,16 +11,10 @@ class AbcMonitor(metaclass=ABCMeta):
             action.
     """
 
-    # region initialization
-
     def __init__(self, monitoring_latency):
         self.__monitoring_latency = None
         self.monitoring_latency = monitoring_latency
         self.__monitoring = False
-
-    # endregion
-
-    # region properties
 
     @property
     def monitoring(self):
@@ -33,10 +27,6 @@ class AbcMonitor(metaclass=ABCMeta):
     @monitoring_latency.setter
     def monitoring_latency(self, value):
         self.__monitoring_latency = value
-
-    # endregion
-
-    # region methods
 
     def start_monitoring(self):
         """Enable periodically monitoring.
@@ -67,9 +57,5 @@ class AbcMonitor(metaclass=ABCMeta):
         """
         raise NotImplementedError('Method not implemented by derived class!')
 
-    # endregion
 
-    pass
-
-
-__all__ = ['AbsMonitor']
+__all__ = ['AbcMonitor']
