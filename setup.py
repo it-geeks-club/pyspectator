@@ -56,7 +56,7 @@ def main():
         requirements_file = 'base.txt'
     requirements_file = os.path.join('requirements', requirements_file)
     with open(requirements_file) as requirements_reader:
-        requires = requirements_reader.read().splitlines()
+        requires = requirements_reader.read().split('\n')
     # Get package description
     with open('README.rst') as readme_reader:
         long_description = readme_reader.read()
