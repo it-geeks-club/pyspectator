@@ -41,10 +41,12 @@ def main():
         )
         exit(1)
     # Generate requires
-    if platform.system() == 'Windows':
+    if 'Windows' in platform.system():
         requirements_file = 'windows.txt'
+    elif 'Linux' in platform.system():
+        requirements_file = 'linux.txt'
     else:
-        requirements_file = 'base.txt'
+        requirements_file = 'default.txt'
     requirements_file = os.path.join('requirements', requirements_file)
     with open(requirements_file) as requirements_reader:
         requires = requirements_reader.read().splitlines()

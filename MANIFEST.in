@@ -1,5 +1,6 @@
 include runner README.rst
 include runner LICENSE
-include requirements/base.txt
+include requirements/default.txt
+include requirements/linux.txt
 include requirements/windows.txt
 recursive-exclude test *

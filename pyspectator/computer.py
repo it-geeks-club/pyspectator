@@ -85,8 +85,9 @@ class Computer(AbcMonitor):
     @classmethod
     def __get_os_name(cls):
         system = '{} {}'.format(platform.system(), platform.release()).strip()
-        if ('Linux' in system) and ('' not in platform.linux_distribution()):
-            system = ' '.join(platform.linux_distribution())
+        if 'Linux' in system:
+            import distro
+            system = ' '.join(distro.linux_distribution()).strip()
         return system
 
     def _monitoring_action(self):
