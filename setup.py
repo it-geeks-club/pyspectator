@@ -1,9 +1,3 @@
-"""
-Installation script
-
-Version: 1.2.1
-"""
-
 import sys
 import platform
 import os
@@ -40,9 +34,6 @@ class PyTest(TestCommand):
 
 
 def main():
-    """
-    App entry point
-    """
     # Check python version
     if sys.version_info < (3, 0, 0):
         sys.stderr.write(
@@ -63,7 +54,7 @@ def main():
     # Describe installer
     settings = {
         'name': 'pyspectator',
-        'version': '1.2.1',
+        'version': '1.2.2',
         'author': 'Maxim Grischuk',
         'author_email': 'uzumaxy@gmail.com',
         'maintainer': 'Maxim Grischuk',
@@ -103,19 +94,12 @@ def main():
             'Intended Audience :: System Administrators',
             'License :: OSI Approved :: BSD License',
             'Natural Language :: English',
-            'Operating System :: MacOS :: MacOS X',
-            'Operating System :: Microsoft :: Windows :: Windows 7',
-            'Operating System :: Microsoft :: Windows :: Windows NT/2000',
-            'Operating System :: Microsoft :: Windows :: Windows Server 2003',
-            'Operating System :: Microsoft :: Windows :: Windows Server 2008',
-            'Operating System :: Microsoft :: Windows :: Windows Vista',
-            'Operating System :: Microsoft :: Windows :: Windows XP',
-            'Operating System :: Microsoft',
             'Operating System :: OS Independent',
-            'Operating System :: POSIX :: BSD :: FreeBSD',
+            'Operating System :: MacOS',
+            'Operating System :: Microsoft :: Windows',
             'Operating System :: POSIX :: Linux',
-            'Operating System :: POSIX :: SunOS/Solaris',
             'Operating System :: POSIX',
+            'Operating System :: Unix',
             'Programming Language :: C',
             'Programming Language :: Python :: 3',
             'Programming Language :: Python :: 3.0',
@@ -124,6 +108,10 @@ def main():
             'Programming Language :: Python :: 3.3',
             'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.8',
+            'Programming Language :: Python :: 3.9',
             'Programming Language :: Python :: Implementation :: CPython',
             'Programming Language :: Python',
             'Topic :: Software Development :: Libraries :: Python Modules',
