@@ -1,6 +1,3 @@
-.. image:: https://badge.waffle.io/it-geeks-club/pyspectator.png?label=ready&title=Ready
- :target: https://waffle.io/it-geeks-club/pyspectator
- :alt: 'Stories in Ready'
 =======
 Summary
 =======
