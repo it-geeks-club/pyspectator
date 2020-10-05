@@ -1,5 +1,5 @@
 psutil>=2.1.1
 netifaces>=0.10.4
-pyvalid>=0.9
+pyvalid>=1.0
 enum34>=1.1
 distro>=1.5
