@@ -1,4 +1,4 @@
-from collections import MutableMapping, Container
+from collections.abc import MutableMapping, Container
 from datetime import datetime, timedelta
 from pyvalid import accepts
 
