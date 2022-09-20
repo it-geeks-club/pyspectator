@@ -2,7 +2,7 @@ import platform
 import os
 import subprocess
 import re
-from collections import Callable
+from collections.abc import Callable
 from datetime import datetime, timedelta
 import psutil
 from pyspectator.monitoring import AbcMonitor
